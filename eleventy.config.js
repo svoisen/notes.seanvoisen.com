@@ -40,6 +40,7 @@ export default async function(eleventyConfig) {
    * passthrough file copy
    */
   eleventyConfig.addPassthroughCopy({ "src/assets/fonts": "assets/fonts" });
+  eleventyConfig.addPassthroughCopy({ "src/assets/js": "assets/js" });
   eleventyConfig.addPassthroughCopy({ "src/assets/favicon/*": "/" });
 }
 
