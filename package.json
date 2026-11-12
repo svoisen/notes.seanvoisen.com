@@ -15,6 +15,7 @@
         "@11ty/eleventy": "^3.1.8",
         "autoprefixer": "^10.6.2",
         "cssnano": "^7.1.9",
+        "gray-matter": "^4.0.3",
         "markdown-it": "^14.3.3",
         "postcss": "^8.5.32",
         "postcss-import": "^16.2.0",

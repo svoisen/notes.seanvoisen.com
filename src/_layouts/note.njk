@@ -1,0 +1,24 @@
+---
+layout: base
+---
+<article class="note">
+    {#
+        Previews and (later) stacked sheets load a note by fetching its page
+        and taking this region, so it holds the title and body only.
+    #}
+    <div class="note__content" data-note-content>
+        <h1>{{ title }}</h1>
+        {{ content | safe }}
+    </div>
+    {%- set backlinks = noteIndex.backlinks[page.url] %}
+    {%- if backlinks and backlinks.length %}
+    <section class="backlinks" aria-labelledby="backlinks-heading">
+        <h2 id="backlinks-heading">Links to this note</h2>
+        <ul>
+            {%- for backlink in backlinks %}
+            <li><a href="{{ backlink.url }}" data-note-link>{{ backlink.title }}</a></li>
+            {%- endfor %}
+        </ul>
+    </section>
+    {%- endif %}
+</article>

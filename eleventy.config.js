@@ -1,11 +1,17 @@
 import filters from "./src/_config/filters.js";
 import plugins from "./src/_config/plugins.js";
+import { resetNoteIndex } from "./src/_config/note-index.js";
 
 export default async function(eleventyConfig) {
   /*
    * libraries
    */
   eleventyConfig.setLibrary("md", plugins.markdownLib);
+
+  /*
+   * every build (and every watch rebuild) rereads the notes
+   */
+  eleventyConfig.on("eleventy.before", resetNoteIndex);
 
   /*
    * watch targets
@@ -23,6 +29,7 @@ export default async function(eleventyConfig) {
    */
   eleventyConfig.addLayoutAlias("base", "base.njk");
   eleventyConfig.addLayoutAlias("page", "page.njk");
+  eleventyConfig.addLayoutAlias("note", "note.njk");
 
   /*
    * passthrough file copy

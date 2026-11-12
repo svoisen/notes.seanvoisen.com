@@ -16,9 +16,10 @@ export const projectRoot = path.resolve(__dirname, "../..");
  * @param {object} options
  * @param {string} [options.notesDir] directory of fixture `.md` notes to mirror into `src/notes/`
  * @param {object} [options.redirects] redirect map to write to `publish/redirects.json`
+ * @param {string} [options.home] replacement Markdown body for the Home page
  * @returns {{ root: string, dist: string, read: (p: string) => string, exists: (p: string) => boolean }}
  */
-export function buildSite({ notesDir, redirects } = {}) {
+export function buildSite({ notesDir, redirects, home } = {}) {
     const root = fs.mkdtempSync(path.join(os.tmpdir(), "notes-site-"));
 
     for (const entry of ["src", "lib", "publish", "eleventy.config.js", "package.json"]) {
@@ -36,6 +37,13 @@ export function buildSite({ notesDir, redirects } = {}) {
     }
     if (notesDir) {
         fs.cpSync(notesDir, notesTarget, { recursive: true });
+    }
+
+    if (home !== undefined) {
+        fs.writeFileSync(
+            path.join(root, "src", "index.md"),
+            `---\ntitle: Home\nlayout: page\npermalink: /\n---\n\n${home}\n`
+        );
     }
 
     if (redirects) {
