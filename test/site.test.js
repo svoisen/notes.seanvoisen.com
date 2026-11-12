@@ -82,3 +82,19 @@ test("note pages, backlinks, and plain-text dead links render from real note fil
         assert.match(action, /<h1>Action can precede cognition<\/h1>/);
     });
 });
+
+test("the redirect map is deployed as Netlify 301 rules", () => {
+    const site = buildSite({
+        notesDir: fixtureNotes,
+        redirects: {
+            "old-action": "action-can-precede-cognition",
+            "older-action": "action-can-precede-cognition",
+        },
+    });
+    const rules = site.read("_redirects").trim().split("\n").filter((line) => !line.startsWith("#"));
+    assert.deepEqual(rules, [
+        "/old-action/ /action-can-precede-cognition/ 301",
+        "/older-action/ /action-can-precede-cognition/ 301",
+    ]);
+    assert.doesNotMatch(site.read("_redirects"), /!/);
+});

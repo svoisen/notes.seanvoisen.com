@@ -1,0 +1,8 @@
+---
+permalink: /_redirects
+eleventyExcludeFromCollections: true
+---
+# Generated from publish/redirects.json: old note URLs that moved when a note was renamed.
+{% for from, to in redirects -%}
+/{{ from }}/ /{{ to }}/ 301
+{% endfor -%}
