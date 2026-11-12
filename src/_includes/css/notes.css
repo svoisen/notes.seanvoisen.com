@@ -205,6 +205,33 @@ body {
 }
 
 /*
+ * Search. Pagefind's own defaults sit on :root, so the brand tokens are set on
+ * its elements instead, where they win whatever order the stylesheets load in.
+ * They resolve through light-dark(), so the search UI follows the theme toggle
+ * rather than the operating system's setting.
+ */
+.search {
+    margin-left: var(--space-s);
+}
+
+pagefind-modal-trigger,
+pagefind-modal {
+    --pf-text: var(--foreground-color);
+    --pf-text-secondary: var(--deemphasized-color);
+    --pf-text-muted: var(--deemphasized-color);
+    --pf-background: var(--background-color);
+    --pf-border: var(--border-color);
+    --pf-border-focus: var(--faint-color);
+    --pf-hover: var(--surface-color);
+    --pf-skeleton: var(--surface-color);
+    --pf-skeleton-shine: var(--surface-raised-color);
+    --pf-mark: var(--foreground-color);
+    --pf-outline-focus: var(--link-hover-color);
+    --pf-font: var(--font-family-ui);
+    --pf-border-radius: var(--border-radius-sm);
+}
+
+/*
  * Theme toggle, copied from seanvoisen.com so it looks and behaves the same.
  */
 .theme-toggle {

@@ -6,13 +6,14 @@ layout: base
         Previews and (later) stacked sheets load a note by fetching its page
         and taking this region, so it holds the title and body only.
     #}
-    <div class="note__content" data-note-content>
+    <div class="note__content" data-note-content data-pagefind-body>
         <h1>{{ title }}</h1>
         {{ content | safe }}
     </div>
     {%- set backlinks = noteIndex.backlinks[page.url] %}
     {%- if backlinks and backlinks.length %}
-    <section class="backlinks" aria-labelledby="backlinks-heading">
+    {# Not indexed: searching a title should find that note, not every note that links to it. #}
+    <section class="backlinks" aria-labelledby="backlinks-heading" data-pagefind-ignore>
         <h2 id="backlinks-heading">Links to this note</h2>
         <ul>
             {%- for backlink in backlinks %}

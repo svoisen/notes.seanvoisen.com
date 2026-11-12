@@ -14,6 +14,11 @@ export default async function(eleventyConfig) {
   eleventyConfig.on("eleventy.before", resetNoteIndex);
 
   /*
+   * full-text search index, rebuilt after every build
+   */
+  eleventyConfig.on("eleventy.after", plugins.indexSite);
+
+  /*
    * watch targets
    */
   eleventyConfig.addWatchTarget("./src/assets/**/*.{css,js,woff2}");

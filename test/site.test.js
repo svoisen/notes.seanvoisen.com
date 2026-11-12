@@ -98,3 +98,23 @@ test("the redirect map is deployed as Netlify 301 rules", () => {
     ]);
     assert.doesNotMatch(site.read("_redirects"), /!/);
 });
+
+test("search indexes note titles and bodies, not Home or backlinks", () => {
+    const site = buildSite({ notesDir: fixtureNotes });
+    assert.ok(site.exists("pagefind/pagefind.js"));
+    const entry = JSON.parse(site.read("pagefind/pagefind-entry.json"));
+    assert.equal(entry.languages.en.page_count, 6);
+
+    const action = site.read("action-can-precede-cognition/index.html");
+    assert.match(action, /<div class="note__content" data-note-content data-pagefind-body>/);
+    assert.match(action, /<section class="backlinks"[^>]*data-pagefind-ignore/);
+    assert.doesNotMatch(site.read("index.html"), /data-pagefind-body/);
+});
+
+test("every page offers the search trigger", () => {
+    const site = buildSite();
+    for (const page of ["index.html", "404.html"]) {
+        assert.match(site.read(page), /<pagefind-modal-trigger/);
+        assert.match(site.read(page), /\/pagefind\/pagefind-component-ui\.js/);
+    }
+});
