@@ -1,0 +1,6 @@
+# Manual rename overrides, one per line:
+#
+#   Old note title -> New note title
+#
+# Add a line when publish reports a possible rename it couldn't confirm, or
+# when an old URL should redirect to a note it missed. Lines can stay here.
