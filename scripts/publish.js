@@ -17,7 +17,7 @@ import os from 'os';
 import path from 'path';
 import { execFileSync } from 'child_process';
 import { fileURLToPath, pathToFileURL } from 'url';
-import { readNotesDir } from '../lib/note-index.js';
+import { readNotesDir, listMarkdown, titleFromPath } from '../lib/note-index.js';
 import { planPublish, parseOverrides } from '../lib/publish-plan.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -41,27 +41,21 @@ export function preflightVault(vaultPath) {
         throw new PublishError(`There is no Evergreen/ folder in VAULT_PATH (${vaultPath}).`);
     }
 
-    const files = fs.readdirSync(evergreen, { recursive: true }).map(String);
-
     // Current iCloud keeps evicted files under their real names and downloads
     // them on read, so this only catches the older placeholder format.
-    const placeholders = files
-        .map((rel) => path.basename(rel).match(/^\.(.+?)(\.md)?\.icloud$/))
+    const placeholders = fs.readdirSync(evergreen, { recursive: true })
+        .map((rel) => path.basename(String(rel)).match(/^\.(.+?)(\.md)?\.icloud$/))
         .filter(Boolean)
         .map((m) => m[1]);
     if (placeholders.length) {
         throw new PublishError(`These notes haven't downloaded from iCloud yet. Open them in Obsidian, then publish again:\n${placeholders.map((t) => `  - ${t}`).join('\n')}`);
     }
 
-    const empty = files
-        .filter((rel) => rel.toLowerCase().endsWith('.md'))
-        .filter((rel) => fs.statSync(path.join(evergreen, rel)).size === 0)
-        .map((rel) => path.basename(rel, '.md'));
+    const notes = readNotesDir(evergreen);
+    const empty = notes.filter((note) => note.source.length === 0).map((note) => note.title);
     if (empty.length) {
         throw new PublishError(`These notes are empty, which usually means iCloud hasn't finished syncing them:\n${empty.map((t) => `  - ${t}`).join('\n')}`);
     }
-
-    const notes = readNotesDir(evergreen);
     if (notes.length === 0) {
         throw new PublishError(`Evergreen/ has no notes in it (${evergreen}). Refusing to publish an empty site.`);
     }
@@ -76,7 +70,7 @@ export function pathsOutsideOwned(statusLines) {
     return statusLines
         .map((line) => line.slice(3))
         .map((p) => (p.includes(' -> ') ? p.split(' -> ').pop() : p))
-        .filter((p) => !(p === 'src/index.md' || p.startsWith('src/notes/') || p.startsWith('publish/')));
+        .filter((p) => !OWNED.some((owned) => p === owned || p.startsWith(`${owned}/`)));
 }
 
 /**
@@ -87,9 +81,7 @@ export function pathsOutsideOwned(statusLines) {
  * @param {string} notesDir
  */
 export function mirrorNotes(notes, notesDir) {
-    for (const rel of fs.readdirSync(notesDir, { recursive: true }).map(String)) {
-        if (rel.toLowerCase().endsWith('.md')) fs.rmSync(path.join(notesDir, rel));
-    }
+    for (const rel of listMarkdown(notesDir)) fs.rmSync(path.join(notesDir, rel));
     removeEmptyDirs(notesDir, true);
     for (const note of notes) {
         const target = path.join(notesDir, note.relPath);
@@ -112,14 +104,17 @@ function removeEmptyDirs(dir, keep = false) {
  * @param {string} repoDir
  */
 export function stageOwnedPaths(repoDir) {
-    const git = (...args) => execFileSync('git', args, { cwd: repoDir, stdio: 'pipe' });
-    git('rm', '-r', '--cached', '-q', '--ignore-unmatch', '--', 'src/notes');
+    gitIn(repoDir, 'rm', '-r', '--cached', '-q', '--ignore-unmatch', '--', 'src/notes');
     const present = OWNED.filter((p) => fs.existsSync(path.join(repoDir, p)));
-    git('add', '-A', '--', ...present);
+    gitIn(repoDir, 'add', '-A', '--', ...present);
+}
+
+function gitIn(cwd, ...args) {
+    return execFileSync('git', args, { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 64 * 1024 * 1024 });
 }
 
 function git(...args) {
-    return execFileSync('git', args, { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 64 * 1024 * 1024 });
+    return gitIn(ROOT, ...args);
 }
 
 function gitSucceeds(...args) {
@@ -143,7 +138,11 @@ function gitStatusLines() {
 }
 
 function readHeadFile(repoPath) {
-    return gitSucceeds('cat-file', '-e', `HEAD:${repoPath}`) ? git('show', `HEAD:${repoPath}`) : null;
+    try {
+        return git('show', `HEAD:${repoPath}`);
+    } catch {
+        return null;
+    }
 }
 
 /** The notes, manifest, and redirect map as last published (committed at HEAD). */
@@ -154,7 +153,7 @@ function readHeadState() {
         .split('\0')
         .filter((p) => p.toLowerCase().endsWith('.md'));
     const notes = notePaths.map((p) => ({
-        title: path.basename(p, '.md').normalize('NFC'),
+        title: titleFromPath(p),
         source: git('show', `HEAD:${p}`),
         relPath: path.relative('src/notes', p),
     }));

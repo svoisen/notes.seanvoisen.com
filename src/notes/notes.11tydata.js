@@ -4,12 +4,12 @@
  * in Obsidian, never here, and don't keep any other Markdown in this folder.
  * This data file is the one thing the mirror leaves alone.
  */
-import path from "node:path";
+import { titleFromPath } from "../../lib/note-index.js";
 import { slugify } from "../../lib/slug.js";
 
 // A note's title is its vault filename, whatever subfolder it sits in, so
 // neither a `title` nor a `permalink` in a note's frontmatter can move it.
-const titleOf = (data) => path.basename(data.page.inputPath, path.extname(data.page.inputPath)).normalize("NFC");
+const titleOf = (data) => titleFromPath(data.page.inputPath);
 
 export default {
   layout: "note",

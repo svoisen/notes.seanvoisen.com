@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "src/_includes/css/notes.css"
+        ],
+        "createdAt": "2026-11-12T23:13:48.104Z",
+        "reason": "agent decision: blockquote border copied verbatim from seanvoisen.com global.css (neutral --blockquote-border-color, brand parity); final visual design deferred to Figma"
+      }
+    ]
+  }
+}
