@@ -1,0 +1,7 @@
+{% set css %}
+{% include "css/tokens.css" %}
+{% include "css/notes.css" %}
+{% endset %}
+        <style>
+        {{ css | postcss | safe }}
+        </style>

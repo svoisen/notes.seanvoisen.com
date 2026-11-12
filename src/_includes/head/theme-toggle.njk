@@ -1,0 +1,72 @@
+<script>
+(function() {
+    'use strict';
+    
+    // Theme toggle functionality (loaded at bottom for performance)
+    function initThemeToggle() {
+        const toggle = document.getElementById('theme-toggle');
+        if (!toggle) return;
+        
+        // Get current theme state
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const isDark = savedTheme ? savedTheme === 'dark' : systemPrefersDark;
+        
+        // Sync toggle with current theme (theme already applied by inline script)
+        toggle.checked = isDark;
+        
+        // Update theme color meta tag to match current theme
+        updateThemeColor();
+        
+        // Listen for toggle changes
+        toggle.addEventListener('change', function() {
+            const isDark = this.checked;
+            setTheme(isDark);
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+        
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+            if (!localStorage.getItem('theme')) {
+                setTheme(e.matches);
+                toggle.checked = e.matches;
+            }
+        });
+    }
+    
+    function setTheme(isDark) {
+        document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        
+        // Update Safari toolbar theme color
+        updateThemeColor();
+    }
+    
+    function updateThemeColor() {
+        // Read the resolved background rather than hardcoding a pair, so the
+        // tag this function writes can never drift from the palette. The
+        // static pair in meta.njk is still maintained by hand — it has to be,
+        // since it serves first paint and every no-JS visitor.
+        const background = getComputedStyle(document.body).backgroundColor;
+
+        // A browser without light-dark() support resolves --background-color
+        // to transparent. Leaving the static media-keyed pair in place beats
+        // replacing it with a transparent value, so bail before removing them.
+        if (!background || /^(transparent$|rgba\(.*,\s*0\s*\)$)/.test(background)) return;
+
+        // Remove existing theme-color meta tags
+        const existingThemeColorTags = document.querySelectorAll('meta[name="theme-color"]');
+        existingThemeColorTags.forEach(tag => tag.remove());
+
+        // Create new theme-color meta tag
+        const themeColorMeta = document.createElement('meta');
+        themeColorMeta.name = 'theme-color';
+        themeColorMeta.content = background;
+
+        // Insert the new meta tag
+        document.head.appendChild(themeColorMeta);
+    }
+    
+    // Initialize immediately since DOM is ready (script at bottom of page)
+    initThemeToggle();
+})();
+</script>

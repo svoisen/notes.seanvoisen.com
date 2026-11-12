@@ -1,0 +1,20 @@
+<header class="header">
+    <div class="wordmark">
+        {#
+            The monogram goes back to the main site; the "Notes" label is this
+            site's home. Two links, because they lead to two different places.
+        #}
+        <a href="{{ site.mainSite }}" class="wordmark__link" title="Go to seanvoisen.com.">
+            {% include "partials/logo.njk" %}
+            <span class="visual-hidden">{{ site.author.name }}</span>
+        </a>
+        <a href="/" class="wordmark__section">Notes</a>
+    </div>
+    <div class="theme-toggle">
+        <input type="checkbox" id="theme-toggle" class="theme-toggle__input" aria-label="Toggle dark mode">
+        <label for="theme-toggle" class="theme-toggle__label">
+            <span class="theme-toggle__icon theme-toggle__icon--sun"></span>
+            <span class="theme-toggle__icon theme-toggle__icon--moon"></span>
+        </label>
+    </div>
+</header>

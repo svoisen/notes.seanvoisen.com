@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang }}">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% if title %}{{ title }} · {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+        {%- include "head/css-inline.njk" %}
+        {%- include "head/meta.njk" %}
+        <!-- Minimal theme initialization to prevent flash -->
+        <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const isDark = savedTheme ? savedTheme === 'dark' : systemPrefersDark;
+            document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        })();
+        </script>
+    </head>
+    <body>
+        {%- include "partials/header.njk" %}
+        <main class="main">
+            {{ content | safe }}
+        </main>
+        {%- include "partials/footer.njk" %}
+        {%- include "head/theme-toggle.njk" %}
+    </body>
+</html>

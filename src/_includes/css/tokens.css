@@ -1,0 +1,213 @@
+/*
+ * Copied verbatim from seanvoisen.com (src/_includes/css/global.css, lines 1-206 at
+ * commit d444d16): the self-hosted font faces and the whole :root token block.
+ * Keep this file byte-identical to that source so brand drift can be diffed;
+ * anything specific to the notes site belongs in notes.css instead.
+ */
+
+/* Self-hosted fonts */
+@font-face {
+    font-family: 'Outfit';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('/assets/fonts/outfit-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: 'IBM Plex Sans';
+    font-style: normal;
+    font-weight: 100 700;
+    font-display: swap;
+    src: url('/assets/fonts/ibm-plex-sans-variable-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: 'IBM Plex Sans';
+    font-style: italic;
+    font-weight: 100 700;
+    font-display: swap;
+    src: url('/assets/fonts/ibm-plex-sans-variable-latin-italic.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+    color-scheme: light dark;
+
+    /*
+     * Palette layer. Raw values only — components never reference these
+     * directly, they go through the semantic layer below. Adding a second
+     * colour scheme later means redefining the semantic layer under a
+     * selector, not touching this block or any component.
+     *
+     * One scale, ordered strictly light to dark, so a higher number is
+     * always a darker value. The light and dark schemes both draw from it
+     * and their steps interleave — that is why the numbering has gaps and
+     * why no step is labelled for the mode that happens to use it.
+     */
+    --grey-0: #FFFFFF;
+    --grey-50: #F2F2F2;
+    --grey-75: #E8E8E8;
+    --grey-100: #E4E4E4;
+    --grey-400: #909090;
+    --grey-450: #8F8F8F;
+    --grey-550: #6A6A6A;
+    --grey-600: #666666;
+    --grey-850: #262626;
+    --grey-900: #171717;
+    --grey-950: #111111;
+    --grey-1000: #0C0C0C;
+
+    /*
+     * The only two hues on the site. Bound to link hover and keyboard focus
+     * and nothing else. Contrast against their own background: blue 5.17:1,
+     * yellow 12.77:1.
+     */
+    --accent-light: #2563EB;
+    --accent-dark: #FACC15;
+
+    /*
+     * Type scale, fluid between a 320px and a 1240px viewport.
+     *
+     * The positive steps are a geometric scale — 1.125 at the narrow end,
+     * 1.24 at the wide end — off a 17/19px body. The two negative steps are
+     * not: a strict ratio drove them to 12px and below, which is where the
+     * tracked-caps labels and the list summaries live, and neither of those
+     * was readable at that size. They are set to legible sizes instead and
+     * the scale picks up again at step 0.
+     */
+    --font-size--2: clamp(0.8438rem, 0.822rem + 0.1087vi, 0.9062rem);   /* 13.5 -> 14.5 */
+    --font-size--1: clamp(0.9375rem, 0.9049rem + 0.163vi, 1.0312rem);   /* 15   -> 16.5 */
+    --font-size-0: clamp(1.0625rem, 1.019rem + 0.2174vi, 1.1875rem);    /* 17   -> 19   */
+    --font-size-1: clamp(1.1953rem, 1.0989rem + 0.4821vi, 1.4725rem);   /* 19.1 -> 23.6 */
+    --font-size-2: clamp(1.3447rem, 1.1774rem + 0.8368vi, 1.8259rem);   /* 21.5 -> 29.2 */
+    --font-size-3: clamp(1.5128rem, 1.2515rem + 1.3066vi, 2.2641rem);   /* 24.2 -> 36.2 */
+    --font-size-4: clamp(1.7019rem, 1.3174rem + 1.9228vi, 2.8075rem);   /* 27.2 -> 44.9 */
+    --font-size-5: clamp(1.9147rem, 1.3697rem + 2.7246vi, 3.4813rem);   /* 30.6 -> 55.7 */
+
+    --space-3xs: clamp(0.25rem, 0.2283rem + 0.1087vi, 0.3125rem);
+    --space-2xs: clamp(0.5rem, 0.4783rem + 0.1087vi, 0.5625rem);
+    --space-xs: clamp(0.75rem, 0.7065rem + 0.2174vi, 0.875rem);
+    --space-s: clamp(1rem, 0.9565rem + 0.2174vi, 1.125rem);
+    --space-m: clamp(1.25rem, 1.1848rem + 0.3261vi, 1.4375rem);
+    --space-l: clamp(1.5rem, 1.4348rem + 0.3261vi, 1.6875rem);
+    --space-xl: clamp(2rem, 1.913rem + 0.4348vi, 2.25rem);
+    --space-2xl: clamp(3rem, 2.8696rem + 0.6522vi, 3.375rem);
+    --space-3xl: clamp(4rem, 3.8261rem + 0.8696vi, 4.5rem);
+
+    /*
+     * Semantic layer. Everything on the site reads from here and nowhere
+     * else, so a future named scheme overrides this block alone:
+     *
+     *   html[data-scheme="flexoki"] { --background-color: ...; ... }
+     *
+     * Contrast against their own background — light / dark:
+     *   foreground      18.9:1 / 16.0:1
+     *   deemphasized     5.7:1 /  6.1:1   (lowest tier carrying text)
+     *   link underline   3.2:1 /  3.6:1   (non-text, 3:1 minimum)
+     * No text uses a tier fainter than deemphasized.
+     */
+    --background-color: light-dark(var(--grey-0), var(--grey-1000));
+    --foreground-color: light-dark(var(--grey-950), var(--grey-75));
+    --deemphasized-color: light-dark(var(--grey-600), var(--grey-400));
+    --faint-color: light-dark(var(--grey-450), var(--grey-550));
+    --border-color: light-dark(var(--grey-100), var(--grey-850));
+    --surface-color: light-dark(var(--grey-50), var(--grey-900));
+    /* One step further from the page than --surface-color: the raised state
+       a surface takes on hover. Shares the border ramp step by coincidence,
+       not by role, so it is its own token rather than an alias. */
+    --surface-raised-color: light-dark(var(--grey-100), var(--grey-850));
+
+    --link-color: var(--foreground-color);
+    --link-underline-color: var(--faint-color);
+    /* Thicker than the font's own underline, which is a hairline at this size
+       and reads as an artefact rather than a decision. Every link on the site
+       carries this one, so the places that clear an underline and put it back
+       on hover do it with text-decoration-line — the text-decoration shorthand
+       resets the thickness to auto, and the underline returns as a hairline. */
+    --link-underline-thickness: 2px;
+    --link-hover-color: light-dark(var(--accent-light), var(--accent-dark));
+
+    --blockquote-border-color: var(--border-color);
+    --metadata-foreground-color: var(--foreground-color);
+    --input-border-color: var(--faint-color);
+    --input-focus-background-color: var(--surface-color);
+
+    --button-background-color: var(--surface-color);
+    --button-foreground-color: var(--foreground-color);
+    --button-hover-background-color: var(--surface-raised-color);
+    --button-hover-foreground-color: var(--foreground-color);
+
+    --theme-toggle-foreground-color: var(--deemphasized-color);
+    --theme-toggle-hover-foreground-color: var(--link-hover-color);
+
+    /* Font families */
+    --font-family-body: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    --font-family-heading: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    --font-family-ui: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    /* One weight for every heading on the site, h1 included: the ranks are
+       told apart by size, not by a second axis of weight. */
+    --heading-font-weight: 800;
+    --line-height: 1.6;
+    --heading-line-height: 1.2;
+    /* Tracked caps and the two-line summaries in the gutter lists. Tight
+       enough to hold a label together, open enough that a summary wrapping
+       to a second line does not close up. */
+    --metadata-line-height: 1.45;
+    /* Long-form prose only. Scoped to prose so nav, lists, and metadata keep
+       the tighter --line-height. */
+    --prose-line-height: 1.75;
+
+    /* In em, so the column is a measure rather than a pixel width: it tracks
+       --font-size-0 and holds the same character count at every step of the
+       fluid scale. 38em lands on ~720px at the wide end, and prose now runs
+       the full width of it — the same edges the images use. */
+    --width: 38em;
+
+    /* The page's side gutter: the left and right air on the three elements
+       that bound the column — masthead, main, footer — so they cannot drift
+       apart. Because --width is a border-box cap, spending more here narrows
+       the measure rather than widening the page.
+
+       Not to be confused with --gutter-width below, which is the width of
+       the gutter grid's left-hand track. This one is the page's edge; that
+       one is a column inside it.
+
+       --space-m rather than the --space-xl it was: at phone widths 32px a
+       side read as more air than the page wanted. On a 393px phone the
+       column is 353px against the 328px --space-xl left it. Set from the
+       rendered page at that width, not off the scale. moonpointing.org
+       carries the same token at the same value. */
+    --page-gutter: var(--space-m);
+
+    /* The gutter grid's one alignment line. Every list that uses it starts
+       its titles at --gutter-width + --gutter-gap from the column edge,
+       whatever the gutter itself carries, so sections line up down the page.
+       Below the one breakpoint the gutter stops being a column entirely — see
+       the narrow-width block at the foot of this file.
+
+       Measured from the face it carries rather than fixed, because the widest
+       thing it has to hold is an archive date: "May 20, 2008" is 6.23em of
+       Outfit, and 6.75 leaves it about 8% of clear air at every step of the
+       fluid scale. A flat 6rem was right against the old type scale and
+       wrapped every two-digit date the moment --font-size--1 grew to 16.5px.
+       Tying the track to the same token the gutter is set in is what stops
+       the two drifting apart again. */
+    --gutter-width: calc(var(--font-size--1) * 6.75);
+    --gutter-gap: var(--space-l);
+
+    /* Icons */
+    --icon-size: 0.75em;
+    --icon-margin: 0.2em;
+
+    /* Border radius */
+    --border-radius-sm: 0.25rem;
+    --border-radius-md: 0.5rem;
+
+    /* Border and outline */
+    --border-width-default: 2px;
+    --focus-outline: 2px solid var(--link-hover-color);
+    --focus-outline-offset: 2px;
+}

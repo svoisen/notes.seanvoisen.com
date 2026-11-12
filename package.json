@@ -1,0 +1,23 @@
+{
+    "name": "notes.seanvoisen.com",
+    "version": "0.1.0",
+    "private": true,
+    "description": "Sean Voisen's public evergreen notes.",
+    "type": "module",
+    "scripts": {
+        "build": "rimraf dist && npx @11ty/eleventy",
+        "start": "npx @11ty/eleventy --serve --quiet",
+        "test": "node --test \"test/**/*.test.js\""
+    },
+    "author": "Sean Voisen",
+    "license": "MIT",
+    "devDependencies": {
+        "@11ty/eleventy": "^3.1.8",
+        "autoprefixer": "^10.6.2",
+        "cssnano": "^7.1.9",
+        "markdown-it": "^14.3.3",
+        "postcss": "^8.5.32",
+        "postcss-import": "^16.2.0",
+        "rimraf": "^6.1.4"
+    }
+}

@@ -1,0 +1,280 @@
+/*
+ * Notes scheme layer. tokens.css is a verbatim copy of seanvoisen.com's token
+ * block; anything the notes site needs that the main site doesn't (the desk,
+ * the sheet, the preview) is declared here as semantic tokens, following the
+ * named-scheme pattern tokens.css describes. The values below are plain
+ * placeholders that read cleanly until the Figma design replaces them.
+ */
+:root {
+    --desk-color: var(--background-color);
+    --sheet-color: var(--background-color);
+    --sheet-border-color: var(--border-color);
+    --preview-background-color: var(--background-color);
+    --preview-border-color: var(--border-color);
+}
+
+/*
+ * Element defaults, adapted from seanvoisen.com's global.css so the two sites
+ * set type the same way.
+ */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    background-color: var(--background-color);
+    color: var(--foreground-color);
+}
+
+body {
+    line-height: var(--line-height);
+    font-family: var(--font-family-heading);
+    font-weight: 400;
+    font-size: var(--font-size-0);
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+}
+
+/* Hue is hover-only, so every focusable element needs a keyboard equivalent. */
+:focus-visible {
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-outline-offset);
+}
+
+a {
+    color: var(--link-color);
+    text-decoration-style: solid;
+    text-decoration-thickness: var(--link-underline-thickness);
+    text-decoration-color: var(--link-underline-color);
+
+    &:hover,
+    &:focus-visible {
+        color: var(--link-hover-color);
+        text-decoration-color: var(--link-hover-color);
+    }
+}
+
+p {
+    margin: var(--space-m) 0;
+}
+
+:is(h1, h2, h3, h4, h5, h6) {
+    font-family: var(--font-family-heading);
+    font-weight: var(--heading-font-weight);
+    line-height: var(--heading-line-height);
+}
+
+h1 {
+    font-size: var(--font-size-4);
+    line-height: 1.15;
+    letter-spacing: -0.013em;
+}
+
+h2 {
+    margin-top: var(--space-2xl);
+    font-size: var(--font-size-3);
+    letter-spacing: -0.009em;
+}
+
+h3 {
+    margin-top: var(--space-xl);
+    font-size: var(--font-size-2);
+    letter-spacing: -0.007em;
+}
+
+ul, ol {
+    margin: var(--space-m) 0 var(--space-m) var(--space-m);
+
+    & li {
+        margin-bottom: var(--space-3xs);
+
+        &::marker {
+            color: var(--deemphasized-color);
+        }
+    }
+}
+
+blockquote {
+    margin-top: var(--space-m);
+    color: var(--deemphasized-color);
+    border-left: 8px solid var(--blockquote-border-color);
+    padding-left: var(--space-s);
+}
+
+.visual-hidden {
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    overflow: hidden;
+    position: absolute !important;
+    white-space: nowrap;
+    width: 1px;
+}
+
+/*
+ * Page frame. Plain single column until the desk-and-sheet design lands.
+ */
+body {
+    background-color: var(--desk-color);
+}
+
+.main {
+    margin: 0 auto;
+    max-width: var(--width);
+    padding: var(--space-2xl) var(--page-gutter) var(--space-m) var(--page-gutter);
+
+    & > article {
+        background-color: var(--sheet-color);
+        font-family: var(--font-family-body);
+        line-height: var(--prose-line-height);
+
+        & :is(h1, h2, h3) {
+            line-height: var(--heading-line-height);
+        }
+
+        & h1 + p {
+            margin-top: var(--space-l);
+        }
+
+        & img {
+            max-width: 100%;
+            height: auto;
+        }
+    }
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    max-width: var(--width);
+    margin: 0 auto;
+    padding: var(--space-2xl) var(--page-gutter) 0 var(--page-gutter);
+    font-size: var(--font-size-0);
+
+    & a {
+        text-decoration-line: none;
+    }
+}
+
+.wordmark {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.wordmark__link {
+    display: inline-flex;
+    align-items: center;
+
+    & svg.logo {
+        display: block;
+        height: 1.75em;
+        fill: var(--link-color);
+        transition: transform 0.2s ease;
+    }
+
+    &:hover svg.logo,
+    &:focus-visible svg.logo {
+        fill: var(--link-hover-color);
+        transform: scale(1.1);
+    }
+}
+
+.wordmark__section {
+    font-family: var(--font-family-ui);
+    font-weight: var(--heading-font-weight);
+}
+
+.footer {
+    max-width: var(--width);
+    margin: var(--space-xl) auto 0 auto;
+    padding: var(--space-xl) var(--page-gutter);
+    font-family: var(--font-family-ui);
+    font-size: var(--font-size--1);
+    color: var(--deemphasized-color);
+
+    & p {
+        margin: 0;
+    }
+}
+
+/*
+ * Theme toggle, copied from seanvoisen.com so it looks and behaves the same.
+ */
+.theme-toggle {
+    margin-left: var(--space-s);
+    line-height: 0;
+}
+
+.theme-toggle__input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.theme-toggle__input:focus-visible + .theme-toggle__label {
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-outline-offset);
+}
+
+.theme-toggle__label {
+    position: relative;
+    display: block;
+    width: 40px;
+    height: 24px;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+
+    &:hover .theme-toggle__icon {
+        background-color: var(--theme-toggle-hover-foreground-color);
+    }
+}
+
+.theme-toggle__icon {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 1rem;
+    height: 1rem;
+    transform: translateY(-50%);
+    background-color: var(--theme-toggle-foreground-color);
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.theme-toggle__icon--sun {
+    opacity: 1;
+    mask-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2020%2020'%20fill='currentColor'%20%3E%3Cpath%20fill-rule='evenodd'%20d='M10%202a1%201%200%20011%201v1a1%201%200%2011-2%200V3a1%201%200%20011-1zm4%208a4%204%200%2011-8%200%204%204%200%20018%200zm-.464%204.95l.707.707a1%201%200%20001.414-1.414l-.707-.707a1%201%200%2000-1.414%201.414zm2.12-10.607a1%201%200%20010%201.414l-.706.707a1%201%200%2011-1.414-1.414l.707-.707a1%201%200%20011.414%200zM17%2011a1%201%200%20100-2h-1a1%201%200%20100%202h1zm-7%204a1%201%200%20011%201v1a1%201%200%2011-2%200v-1a1%201%200%20011-1zM5.05%206.464A1%201%200%20106.465%205.05l-.708-.707a1%201%200%2000-1.414%201.414l.707.707zm1.414%208.486l-.707.707a1%201%200%2001-1.414-1.414l.707-.707a1%201%200%20011.414%201.414zM4%2011a1%201%200%20100-2H3a1%201%200%20000%202h1z'%20clip-rule='evenodd'%20/%3E%3C/svg%3E");
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+.theme-toggle__icon--moon {
+    opacity: 0;
+    mask-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20fill='currentColor'%20viewBox='0%200%2024%2024'%20%3E%3Cpath%20d='M20.354%2015.354A9%209%200%20018.646%203.646%209.003%209.003%200%200012%2021a9.003%209.003%200%20008.354-5.646z'%20/%3E%3C/svg%3E");
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+.theme-toggle__input:checked + .theme-toggle__label .theme-toggle__icon--sun {
+    opacity: 0;
+}
+
+.theme-toggle__input:checked + .theme-toggle__label .theme-toggle__icon--moon {
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .theme-toggle__icon,
+    svg.logo {
+        transition: none;
+    }
+}

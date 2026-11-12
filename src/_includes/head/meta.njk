@@ -1,0 +1,25 @@
+        {%- set metaDescription = description or site.description %}
+        <meta name="description" content="{{ metaDescription }}">
+        <meta name="generator" content="{{ eleventy.generator }}">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="color-scheme" content="light dark">
+        <meta name="theme-color" content="#0C0C0C" media="(prefers-color-scheme: dark)">
+        <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+        <link rel="canonical" href="{{ site.base }}{{ page.url }}" />
+
+        {# Preload critical fonts early for better performance #}
+        <link rel="preload" href="/assets/fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+        <link rel="preload" href="/assets/fonts/ibm-plex-sans-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+        <meta property="og:url" content="{{ site.base }}{{ page.url }}">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="{{ title or site.title }}">
+        <meta property="og:description" content="{{ metaDescription }}">
+        <meta property="og:site_name" content="{{ site.title }}">
+        <meta property="og:locale" content="{{ site.locale }}">
+        <meta property="article:author" content="{{ site.author.name }}">
+
+        <link rel="icon" type="image/x-icon" href="/favicon.ico">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
