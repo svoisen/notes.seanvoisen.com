@@ -4,7 +4,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
-import { preflightVault, pathsOutsideOwned, mirrorNotes, stageOwnedPaths } from "../scripts/publish.js";
+import { preflightVault, pathsOutsideOwned, mirrorNotes, stageOwnedPaths, commitStaged } from "../scripts/publish.js";
 
 const tmp = () => fs.mkdtempSync(path.join(os.tmpdir(), "notes-publish-"));
 
@@ -67,7 +67,9 @@ test("mirroring and staging record a case-only rename with the new case", () => 
 
     mirrorNotes([{ title: "The Gui note", source: "Body.\n", relPath: "The Gui note.md" }], notesDir);
     stageOwnedPaths(repo);
-    git("commit", "-q", "-m", "rename");
+    const messageFile = path.join(tmp(), "message.txt");
+    fs.writeFileSync(messageFile, "rename\n");
+    commitStaged(repo, messageFile);
 
     const tracked = git("ls-tree", "-r", "--name-only", "HEAD", "--", "src/notes").trim().split("\n");
     assert.deepEqual(tracked.sort(), ["src/notes/The Gui note.md", "src/notes/notes.11tydata.js"]);

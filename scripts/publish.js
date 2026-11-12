@@ -70,7 +70,12 @@ export function pathsOutsideOwned(statusLines) {
     return statusLines
         .map((line) => line.slice(3))
         .map((p) => (p.includes(' -> ') ? p.split(' -> ').pop() : p))
-        .filter((p) => !OWNED.some((owned) => p === owned || p.startsWith(`${owned}/`)));
+        .filter((p) => !isOwned(p));
+}
+
+/** @param {string} repoPath a path relative to the repo root */
+function isOwned(repoPath) {
+    return OWNED.some((owned) => repoPath === owned || repoPath.startsWith(`${owned}/`));
 }
 
 /**
@@ -107,6 +112,23 @@ export function stageOwnedPaths(repoDir) {
     gitIn(repoDir, 'rm', '-r', '--cached', '-q', '--ignore-unmatch', '--', 'src/notes');
     const present = OWNED.filter((p) => fs.existsSync(path.join(repoDir, p)));
     gitIn(repoDir, 'add', '-A', '--', ...present);
+}
+
+/**
+ * Commit exactly what stageOwnedPaths staged. The commit takes no pathspec on
+ * purpose: with paths, git rebuilds the commit from HEAD plus the working tree
+ * and resurrects the old-case entry of a case-only rename, which then fails.
+ * The check below keeps the guarantee a pathspec would have given.
+ * @param {string} repoDir
+ * @param {string} messageFile
+ */
+export function commitStaged(repoDir, messageFile) {
+    const staged = gitIn(repoDir, 'diff', '--cached', '--name-only', '-z').split('\0').filter(Boolean);
+    const foreign = staged.filter((p) => !isOwned(p));
+    if (foreign.length) {
+        throw new PublishError(`Refusing to commit files publish doesn't own:\n${foreign.map((p) => `  - ${p}`).join('\n')}`);
+    }
+    gitIn(repoDir, 'commit', '-q', '-F', messageFile);
 }
 
 function gitIn(cwd, ...args) {
@@ -279,7 +301,11 @@ async function main() {
 
     stageOwnedPaths(ROOT);
     const hasChanges = !gitSucceeds('diff', '--cached', '--quiet');
-    const ahead = gitSucceeds('rev-parse', '@{u}') && Number(git('rev-list', '--count', '@{u}..HEAD').trim()) > 0;
+    // With no upstream yet (no remote, or a first push that failed), there is
+    // no way to tell what's unpushed, so push and let it set one up or explain.
+    const ahead = gitSucceeds('rev-parse', '@{u}')
+        ? Number(git('rev-list', '--count', '@{u}..HEAD').trim()) > 0
+        : true;
 
     if (!hasChanges && !ahead) {
         console.log('\nNothing to publish: the site already matches the vault.');
@@ -289,7 +315,7 @@ async function main() {
     if (hasChanges) {
         const messageFile = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'notes-publish-')), 'message.txt');
         fs.writeFileSync(messageFile, commitMessage(plan));
-        git('commit', '-q', '-F', messageFile, '--', ...OWNED.filter((p) => fs.existsSync(path.join(ROOT, p))));
+        commitStaged(ROOT, messageFile);
     }
 
     push();
@@ -297,7 +323,10 @@ async function main() {
     console.log(`\nPushed on ${git('branch', '--show-current').trim()}. Netlify deploys it to ${base} in a minute or two.`);
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
+// Compare real paths: module URLs are symlink-resolved and argv isn't, so a
+// checkout reached through a symlink would otherwise never run main().
+const invokedAs = process.argv[1] && fs.existsSync(process.argv[1]) ? fs.realpathSync(process.argv[1]) : '';
+if (invokedAs === fileURLToPath(import.meta.url)) {
     main().catch((error) => {
         if (error instanceof PublishError) {
             console.error(`\n${error.message}`);
