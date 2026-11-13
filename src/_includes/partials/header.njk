@@ -1,17 +1,8 @@
 <header class="header">
-    <div class="wordmark">
-        {#
-            The monogram goes back to the main site; the "Notes" label is this
-            site's home. Two links, because they lead to two different places.
-        #}
-        <a href="{{ site.mainSite }}" class="wordmark__link" title="Go to seanvoisen.com.">
-            {% include "partials/logo.njk" %}
-            <span class="visual-hidden">{{ site.author.name }}</span>
-        </a>
-        <a href="/" class="wordmark__section">Notes</a>
-    </div>
+    {# The footer links back to seanvoisen.com; the header names this site and leads to its Home. #}
+    <a href="/" class="wordmark">{{ site.author.name }}’s Notes</a>
     <div class="search">
-        <pagefind-modal-trigger></pagefind-modal-trigger>
+        <pagefind-modal-trigger placeholder="Search"></pagefind-modal-trigger>
         <pagefind-modal></pagefind-modal>
     </div>
     <div class="theme-toggle">

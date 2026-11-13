@@ -12,14 +12,25 @@ layout: base
     </div>
     {%- set backlinks = noteIndex.backlinks[page.url] %}
     {%- if backlinks and backlinks.length %}
-    {# Not indexed: searching a title should find that note, not every note that links to it. #}
+    {#
+        Not indexed: searching a title should find that note, not every note
+        that links to it. Each entry shows the passage that holds the link,
+        with the link's own words set apart.
+    #}
     <section class="backlinks" aria-labelledby="backlinks-heading" data-pagefind-ignore>
-        <h2 id="backlinks-heading">Links to this note</h2>
-        <ul>
-            {%- for backlink in backlinks %}
-            <li><a href="{{ backlink.url }}" data-note-link>{{ backlink.title }}</a></li>
-            {%- endfor %}
-        </ul>
+        <div class="backlinks__inner">
+            <h2 id="backlinks-heading">Links to this note</h2>
+            <ul class="backlinks__list">
+                {%- for backlink in backlinks %}
+                <li class="backlink">
+                    <a class="backlink__title" href="{{ backlink.url }}" data-note-link>{{ backlink.title }}</a>
+                    {%- if backlink.excerpt %}
+                    <p class="backlink__excerpt">{{ backlink.excerpt.before | escape }}<mark>{{ backlink.excerpt.link | escape }}</mark>{{ backlink.excerpt.after | escape }}</p>
+                    {%- endif %}
+                </li>
+                {%- endfor %}
+            </ul>
+        </div>
     </section>
     {%- endif %}
 </article>

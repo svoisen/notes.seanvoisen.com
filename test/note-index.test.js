@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { buildNoteIndex, extractWikilinks } from "../lib/note-index.js";
+import { buildNoteIndex, extractWikilinks, backlinkExcerpt } from "../lib/note-index.js";
 
 const note = (title, source) => ({ title, source });
 
@@ -55,8 +55,10 @@ test("backlinks are deduped, never self-referential, and only from resolved link
         note("B", "Back to [[A]]."),
         note("C", "Nothing links here."),
     ]);
-    assert.deepEqual(index.backlinks["/b/"], [{ title: "A", url: "/a/" }]);
-    assert.deepEqual(index.backlinks["/a/"], [{ title: "B", url: "/b/" }]);
+    const entries = (url) => index.backlinks[url].map(({ title, url }) => ({ title, url }));
+    assert.deepEqual(entries("/b/"), [{ title: "A", url: "/a/" }]);
+    assert.deepEqual(entries("/a/"), [{ title: "B", url: "/b/" }]);
+    assert.deepEqual(index.backlinks["/b/"][0].excerpt, { before: "See ", link: "B", after: " and again the same note. Also A and Nowhere." });
     assert.deepEqual(index.backlinks["/c/"] ?? [], []);
 });
 
@@ -70,4 +72,29 @@ test("display text is the alias, else the target as written without its heading"
     assert.equal(aliased.display, "shown");
     assert.equal(headed.display, "B");
     assert.equal(embed.embed, true);
+});
+
+const toB = (target) => target.toLowerCase() === "b";
+
+test("a backlink excerpt is the paragraph holding the first link, as plain text", () => {
+    const body = "# Heading\n\nNo link here.\n\n- A **bold** [md link](https://x.test) and [[C|another]], then [[B|the target]] with `code`.\n\n[[B]] again.";
+    assert.deepEqual(backlinkExcerpt(body, toB), { before: "A bold md link and another, then ", link: "the target", after: " with code." });
+});
+
+test("a late link's excerpt starts at a sentence close enough that the clamp keeps the link", () => {
+    const lead = "Filler words run on here. ".repeat(10);
+    const { before } = backlinkExcerpt(`${lead}This sentence links [[B]].`, toB);
+    assert.match(before, /^…Filler words/);
+    assert.ok(before.length <= 141, `${before.length} characters before the link`);
+    assert.ok(before.endsWith("This sentence links "));
+});
+
+test("a backlink excerpt curls quotes the way the rendered note does", () => {
+    const { before, after } = backlinkExcerpt(`Spaces are "neat," says [[B]]'s author.`, toB);
+    assert.equal(before, "Spaces are “neat,” says ");
+    assert.equal(after, "’s author.");
+});
+
+test("an embed or a link inside code is never the excerpt's link", () => {
+    assert.equal(backlinkExcerpt("![[B]]\n\n```\n[[B]]\n```", toB), null);
 });

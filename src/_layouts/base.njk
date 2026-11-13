@@ -4,9 +4,15 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% if title %}{{ title }} · {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+        {#
+            Pagefind's stylesheet goes in a cascade layer above the site's
+            element defaults and below everything else, so notes.css restyles
+            search with plain selectors instead of out-ranking the specificity
+            boosters Pagefind ships with.
+        #}
+        <style>@layer base, pagefind; @import url("/pagefind/pagefind-component-ui.css") layer(pagefind);</style>
         {%- include "head/css-inline.njk" %}
         {%- include "head/meta.njk" %}
-        <link rel="stylesheet" href="/pagefind/pagefind-component-ui.css">
         <script src="/pagefind/pagefind-component-ui.js" type="module"></script>
         <!-- Minimal theme initialization to prevent flash -->
         <script>

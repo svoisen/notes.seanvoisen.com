@@ -17,12 +17,21 @@ test("pages carry no <base> element", () => {
     assert.doesNotMatch(site.read("index.html"), /<base\b/);
 });
 
-test("inlined CSS carries the copied brand tokens and both font faces", () => {
+test("inlined CSS carries the copied brand tokens and sets every family in IBM Plex Sans", () => {
     const home = buildSite().read("index.html");
     assert.match(home, /--background-color:/);
     assert.match(home, /--link-hover-color:/);
-    assert.match(home, /font-family:Outfit/);
     assert.match(home, /font-family:IBM Plex Sans/);
+    assert.match(home, /--font-family-heading:var\(--font-family-body\)/);
+    assert.match(home, /--font-family-ui:var\(--font-family-body\)/);
+    assert.doesNotMatch(home, /outfit-latin\.woff2" as="font"/);
+});
+
+test("the header names the site and the footer carries the main site's copyright and licence", () => {
+    const home = buildSite().read("index.html");
+    assert.match(home, /<a href="\/" class="wordmark">Sean Voisen’s Notes<\/a>/);
+    assert.match(home, /© 2008–\d{4} Sean Voisen/);
+    assert.match(home, /All content licensed under <a href="https:\/\/creativecommons.org\/licenses\/by-sa\/4.0"[^>]*>CC BY-SA 4.0<\/a>\./);
 });
 
 test("the build emits a 404 page that links to Home", () => {
@@ -56,13 +65,17 @@ test("note pages, backlinks, and plain-text dead links render from real note fil
 
     await t.test("a note without frontmatter publishes and counts as a backlink source", () => {
         assert.ok(site.exists("digital-collaborative-environments-tend-to-be-neat/index.html"));
-        assert.match(action, /<a href="\/digital-collaborative-environments-tend-to-be-neat\/" data-note-link>Digital collaborative environments tend to be neat<\/a>/);
+        assert.match(action, /<a class="backlink__title" href="\/digital-collaborative-environments-tend-to-be-neat\/" data-note-link>Digital collaborative environments tend to be neat<\/a>/);
     });
 
     await t.test("a note linking twice is listed once; Home is never listed", () => {
-        const entries = action.match(/<a href="\/epistemic-actions-are-taken-to-think-not-to-progress-toward-a-goal\/" data-note-link>Epistemic/g) ?? [];
+        const entries = action.match(/<a class="backlink__title" href="\/epistemic-actions-are-taken-to-think-not-to-progress-toward-a-goal\/" data-note-link>Epistemic/g) ?? [];
         assert.equal(entries.length, 1);
         assert.doesNotMatch(action.slice(action.indexOf('class="backlinks"')), />Home</);
+    });
+
+    await t.test("a backlink shows the linking passage, with the link's words marked", () => {
+        assert.match(action, /<p class="backlink__excerpt">Digital spaces tidy themselves, unlike desks\. See <mark>Action can precede cognition<\/mark>\.<\/p>/);
     });
 
     await t.test("backlinks sit outside the previewable content region", () => {

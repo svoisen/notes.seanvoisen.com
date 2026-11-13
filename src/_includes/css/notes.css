@@ -1,109 +1,131 @@
 /*
  * Notes scheme layer. tokens.css is a verbatim copy of seanvoisen.com's token
- * block; anything the notes site needs that the main site doesn't (the desk,
- * the sheet, the preview) is declared here as semantic tokens, following the
- * named-scheme pattern tokens.css describes. The values below are plain
- * placeholders that read cleanly until the Figma design replaces them.
+ * block; whatever the notes site does differently is declared here instead,
+ * so the copy stays diffable against its source. Design: the "Notes site ·
+ * design explorations" Figma file, band backlinks direction.
  */
 :root {
-    --desk-color: var(--background-color);
-    --sheet-color: var(--background-color);
-    --sheet-border-color: var(--border-color);
+    /*
+     * One face. The main site sets headings and UI in Outfit; the notes site
+     * sets everything in IBM Plex Sans, which is what sets it apart. The
+     * Outfit @font-face in tokens.css stays as copied, and a face nothing
+     * uses is never downloaded.
+     */
+    --font-family-heading: var(--font-family-body);
+    --font-family-ui: var(--font-family-body);
+    /* Plex's variable font tops out at 700, and 800 Outfit's black weight
+       has no equal in it. SemiBold carries the same rank without shouting. */
+    --heading-font-weight: 600;
+
+    /*
+     * The page's left edge. Content sits left-aligned against it rather than
+     * centred, so it is wider than the main site's --page-gutter on a desk-
+     * top and falls back to it on a phone. 5vw is 72px at 1440.
+     */
+    --notes-gutter: clamp(var(--page-gutter), 5vw, 4.5rem);
+
+    /* The band behind the backlinks and the footer under it. */
+    --band-color: var(--surface-color);
+    --band-border-color: var(--border-color);
+
     --preview-background-color: var(--background-color);
     --preview-border-color: var(--border-color);
 }
 
 /*
  * Element defaults, adapted from seanvoisen.com's global.css so the two sites
- * set type the same way.
+ * set type the same way. They sit in the lowest layer so Pagefind's own
+ * spacing, in the layer above, is never reset by them.
  */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-html, body {
-    background-color: var(--background-color);
-    color: var(--foreground-color);
-}
-
-body {
-    line-height: var(--line-height);
-    font-family: var(--font-family-heading);
-    font-weight: 400;
-    font-size: var(--font-size-0);
-    font-optical-sizing: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-text-size-adjust: 100%;
-    text-rendering: optimizeLegibility;
-}
-
-/* Hue is hover-only, so every focusable element needs a keyboard equivalent. */
-:focus-visible {
-    outline: var(--focus-outline);
-    outline-offset: var(--focus-outline-offset);
-}
-
-a {
-    color: var(--link-color);
-    text-decoration-style: solid;
-    text-decoration-thickness: var(--link-underline-thickness);
-    text-decoration-color: var(--link-underline-color);
-
-    &:hover,
-    &:focus-visible {
-        color: var(--link-hover-color);
-        text-decoration-color: var(--link-hover-color);
+@layer base {
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
     }
-}
 
-p {
-    margin: var(--space-m) 0;
-}
+    html, body {
+        background-color: var(--background-color);
+        color: var(--foreground-color);
+    }
 
-:is(h1, h2, h3, h4, h5, h6) {
-    font-family: var(--font-family-heading);
-    font-weight: var(--heading-font-weight);
-    line-height: var(--heading-line-height);
-}
+    body {
+        line-height: var(--line-height);
+        font-family: var(--font-family-body);
+        font-weight: 400;
+        font-size: var(--font-size-0);
+        font-optical-sizing: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-text-size-adjust: 100%;
+        text-rendering: optimizeLegibility;
+    }
 
-h1 {
-    font-size: var(--font-size-4);
-    line-height: 1.15;
-    letter-spacing: -0.013em;
-}
+    /* Hue is hover-only, so every focusable element needs a keyboard equivalent. */
+    :focus-visible {
+        outline: var(--focus-outline);
+        outline-offset: var(--focus-outline-offset);
+    }
 
-h2 {
-    margin-top: var(--space-2xl);
-    font-size: var(--font-size-3);
-    letter-spacing: -0.009em;
-}
+    a {
+        color: var(--link-color);
+        text-decoration-style: solid;
+        text-decoration-thickness: var(--link-underline-thickness);
+        text-decoration-color: var(--link-underline-color);
 
-h3 {
-    margin-top: var(--space-xl);
-    font-size: var(--font-size-2);
-    letter-spacing: -0.007em;
-}
-
-ul, ol {
-    margin: var(--space-m) 0 var(--space-m) var(--space-m);
-
-    & li {
-        margin-bottom: var(--space-3xs);
-
-        &::marker {
-            color: var(--deemphasized-color);
+        &:hover,
+        &:focus-visible {
+            color: var(--link-hover-color);
+            text-decoration-color: var(--link-hover-color);
         }
     }
-}
 
-blockquote {
-    margin-top: var(--space-m);
-    color: var(--deemphasized-color);
-    border-left: 8px solid var(--blockquote-border-color);
-    padding-left: var(--space-s);
+    p {
+        margin: var(--space-m) 0;
+    }
+
+    :is(h1, h2, h3, h4, h5, h6) {
+        font-family: var(--font-family-heading);
+        font-weight: var(--heading-font-weight);
+        line-height: var(--heading-line-height);
+    }
+
+    /* Note titles are whole sentences, so the title steps down from the main
+       site's --font-size-4: at that size most of them ran to four lines. */
+    h1 {
+        font-size: var(--font-size-3);
+        letter-spacing: -0.015em;
+    }
+
+    h2 {
+        margin-top: var(--space-xl);
+        font-size: var(--font-size-1);
+        letter-spacing: -0.01em;
+    }
+
+    h3 {
+        margin-top: var(--space-l);
+        font-size: var(--font-size-0);
+    }
+
+    ul, ol {
+        margin: var(--space-m) 0 var(--space-m) var(--space-m);
+
+        & li {
+            margin-bottom: var(--space-3xs);
+
+            &::marker {
+                color: var(--deemphasized-color);
+            }
+        }
+    }
+
+    blockquote {
+        margin-top: var(--space-m);
+        color: var(--deemphasized-color);
+        border-left: 8px solid var(--blockquote-border-color);
+        padding-left: var(--space-s);
+    }
 }
 
 .visual-hidden {
@@ -116,97 +138,170 @@ blockquote {
 }
 
 /*
- * Page frame. Plain single column until the desk-and-sheet design lands.
+ * Page frame. Header, content, band, and footer all start at the same left
+ * edge, --notes-gutter in from the window. The column is --width wide and
+ * never centred.
  */
-body {
-    background-color: var(--desk-color);
-}
-
-.main {
-    margin: 0 auto;
-    max-width: var(--width);
-    padding: var(--space-2xl) var(--page-gutter) var(--space-m) var(--page-gutter);
-
-    & > article {
-        background-color: var(--sheet-color);
-        font-family: var(--font-family-body);
-        line-height: var(--prose-line-height);
-
-        & :is(h1, h2, h3) {
-            line-height: var(--heading-line-height);
-        }
-
-        & h1 + p {
-            margin-top: var(--space-l);
-        }
-
-        & img {
-            max-width: 100%;
-            height: auto;
-        }
-    }
-}
-
 .header {
     display: flex;
-    flex-direction: row;
     align-items: center;
-    max-width: var(--width);
-    margin: 0 auto;
-    padding: var(--space-2xl) var(--page-gutter) 0 var(--page-gutter);
-    font-size: var(--font-size-0);
-
-    & a {
-        text-decoration-line: none;
-    }
+    gap: var(--space-s);
+    padding: var(--space-l) var(--notes-gutter);
 }
 
 .wordmark {
     flex: 1;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    line-height: var(--heading-line-height);
+    text-decoration-line: none;
+}
+
+/* The footer is a tinted block, so on a page shorter than the window it
+   sits at the bottom instead of ending halfway down with white below. */
+body {
     display: flex;
-    align-items: center;
-    gap: var(--space-xs);
+    flex-direction: column;
+    min-height: 100dvh;
 }
 
-.wordmark__link {
-    display: inline-flex;
-    align-items: center;
+.main {
+    flex: 1;
+    padding-top: var(--space-xl);
+}
 
-    & svg.logo {
-        display: block;
-        height: 1.75em;
-        fill: var(--link-color);
-        transition: transform 0.2s ease;
+/* --width is in em, so these take --font-size-0 from body: a size set on them
+   would change the column. Border-box, so the gutter is spent outside it. */
+.note__content,
+.page {
+    max-width: calc(var(--width) + 2 * var(--notes-gutter));
+    padding: 0 var(--notes-gutter) var(--space-3xl);
+    line-height: var(--prose-line-height);
+
+    & :is(h1, h2, h3) {
+        line-height: var(--heading-line-height);
     }
 
-    &:hover svg.logo,
-    &:focus-visible svg.logo {
-        fill: var(--link-hover-color);
-        transform: scale(1.1);
+    & h1 + p {
+        margin-top: var(--space-l);
     }
-}
 
-.wordmark__section {
-    font-family: var(--font-family-ui);
-    font-weight: var(--heading-font-weight);
-}
-
-.footer {
-    max-width: var(--width);
-    margin: var(--space-xl) auto 0 auto;
-    padding: var(--space-xl) var(--page-gutter);
-    font-family: var(--font-family-ui);
-    font-size: var(--font-size--1);
-    color: var(--deemphasized-color);
-
-    & p {
-        margin: 0;
+    & img {
+        max-width: 100%;
+        height: auto;
     }
 }
 
 /*
- * Hover preview of a linked note. Plain placeholder styling until the design
- * lands; the element itself is created by preview.js.
+ * Links to this note. A full-width band under the note, after Andy
+ * Matuschak's notes: each linking note's title over the passage that links
+ * here, with the link's own words in the full text colour. The passage is
+ * clamped to four lines so the grid keeps one rhythm.
+ */
+.backlinks {
+    padding: var(--space-xl) var(--notes-gutter) var(--space-2xl);
+    background-color: var(--band-color);
+
+    & h2 {
+        margin: 0 0 var(--space-s);
+        font-size: var(--font-size--1);
+        letter-spacing: 0;
+        color: var(--deemphasized-color);
+    }
+}
+
+.backlinks__inner {
+    max-width: var(--width);
+}
+
+.backlinks__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+    gap: var(--space-l) var(--space-xl);
+    margin: 0;
+    list-style: none;
+
+    & li {
+        margin: 0;
+    }
+}
+
+.backlink__title {
+    display: block;
+    font-size: var(--font-size--1);
+    font-weight: 600;
+    line-height: var(--metadata-line-height);
+    text-decoration-line: none;
+}
+
+.backlink__excerpt {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    overflow: hidden;
+    margin: var(--space-3xs) 0 0;
+    font-size: var(--font-size--2);
+    line-height: 1.5;
+    color: var(--deemphasized-color);
+
+    & mark {
+        background: none;
+        color: var(--foreground-color);
+    }
+}
+
+/*
+ * Footer. Shares the band's tint, with a rule between them, so on a note
+ * with backlinks the two read as one closing block. The lines inside match
+ * seanvoisen.com's footer.
+ */
+.footer {
+    padding: var(--space-l) var(--notes-gutter) var(--space-xl);
+    background-color: var(--band-color);
+    border-top: 1px solid var(--band-border-color);
+
+    & p {
+        margin: 0;
+        font-size: var(--font-size--1);
+    }
+}
+
+.footer__inner {
+    max-width: var(--width);
+}
+
+.footer__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0 var(--space-s);
+}
+
+.footer__copyright {
+    color: var(--deemphasized-color);
+    white-space: nowrap;
+}
+
+.footer__licence {
+    margin-top: var(--space-2xs);
+    color: var(--deemphasized-color);
+}
+
+/* Chrome, so its links sit in the deemphasized tier, as on the main site. */
+.footer a {
+    color: var(--deemphasized-color);
+
+    &:hover,
+    &:focus-visible {
+        color: var(--link-hover-color);
+    }
+}
+
+/*
+ * Hover preview of a linked note. Not yet designed; the element itself is
+ * created by preview.js.
  */
 .note-preview {
     position: absolute;
@@ -219,7 +314,6 @@ body {
     border: 1px solid var(--preview-border-color);
     border-radius: var(--border-radius-md);
     box-shadow: 0 8px 24px light-dark(rgb(0 0 0 / 0.12), rgb(0 0 0 / 0.5));
-    font-family: var(--font-family-body);
     font-size: var(--font-size--1);
     line-height: var(--prose-line-height);
 
@@ -239,15 +333,15 @@ body {
 }
 
 /*
- * Search. Pagefind's own defaults sit on :root, so the brand tokens are set on
- * its elements instead, where they win whatever order the stylesheets load in.
- * They resolve through light-dark(), so the search UI follows the theme toggle
- * rather than the operating system's setting.
+ * Search. Pagefind's modal, restyled as a popover that drops from the
+ * trigger in the header on a wide window. Below 641px Pagefind's own rule
+ * makes it a full-screen sheet, which is kept.
+ *
+ * Pagefind's defaults sit on :root, so the brand tokens are set on its
+ * elements instead, where they win whatever order the stylesheets load in.
+ * They resolve through light-dark(), so search follows the theme toggle
+ * rather than the operating system.
  */
-.search {
-    margin-left: var(--space-s);
-}
-
 pagefind-modal-trigger,
 pagefind-modal {
     --pf-text: var(--foreground-color);
@@ -261,15 +355,21 @@ pagefind-modal {
     --pf-skeleton-shine: var(--surface-raised-color);
     --pf-mark: var(--foreground-color);
     --pf-outline-focus: var(--link-hover-color);
-    --pf-font: var(--font-family-ui);
+    --pf-font: var(--font-family-body);
     --pf-border-radius: var(--border-radius-sm);
+    --pf-input-font-size: var(--font-size-0);
+    --pf-summary-font-size: var(--font-size--2);
+    --pf-result-title-font-size: var(--font-size--1);
+    --pf-result-excerpt-font-size: var(--font-size--2);
+    --pf-results-gap: 2px;
+    --pf-shadow-lg: 0 2px 6px rgb(0 0 0 / 0.06), 0 16px 40px light-dark(rgb(0 0 0 / 0.14), rgb(0 0 0 / 0.5));
+    --pf-modal-backdrop: light-dark(rgb(0 0 0 / 0.12), rgb(0 0 0 / 0.6));
 }
 
 /*
  * Pagefind resets its elements to `color-scheme: initial`, which cuts them off
  * from the scheme the theme toggle sets on <html> and makes every light-dark()
- * above resolve light. The `html` prefix outranks that reset, whatever order
- * the two stylesheets load in.
+ * above resolve light. The `html` prefix outranks that reset.
  */
 html :is(
     pagefind-modal-trigger, pagefind-modal, pagefind-modal-header,
@@ -281,11 +381,111 @@ html :is(
     color-scheme: inherit;
 }
 
+/* Pagefind sets `all: revert` on its own elements, which hands its buttons
+   back to the browser's system font. */
+:is(.pf-trigger-btn, .pf-input-clear, .pf-modal-close) {
+    font-family: var(--pf-font);
+}
+
+/* The trigger takes the main site's input border, and drops the magnifier:
+   the word says what it is. */
+.pf-trigger-btn {
+    border-color: var(--input-border-color);
+}
+
+.pf-trigger-icon {
+    display: none;
+}
+
+@media (min-width: 641px) {
+    /* Right-aligned under the trigger, just below it. */
+    dialog.pf-modal {
+        margin: calc(var(--space-l) + var(--pf-input-height) + var(--space-2xs)) var(--notes-gutter) auto auto;
+        max-height: min(70dvh, 40rem);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius-md);
+    }
+}
+
+dialog.pf-modal::backdrop {
+    color-scheme: inherit;
+}
+
+.pf-modal-header {
+    padding: var(--space-xs);
+}
+
+/* Pagefind shows close on a phone only. The popover keeps it everywhere. */
+.pf-modal-close {
+    display: flex;
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--border-radius-sm);
+}
+
+.pf-modal-body {
+    padding: var(--space-2xs) 6px;
+
+    & .pf-summary {
+        margin-bottom: var(--space-3xs);
+        padding: 0 var(--space-xs);
+    }
+}
+
+/* Results are rows, not cards: no border, and the selected row takes the
+   band's tint. Notes have no images, so the image slot goes. */
+.pf-result-card {
+    padding: 10px var(--space-xs);
+    border-color: transparent;
+    border-radius: 6px;
+
+    &:hover,
+    &:has([data-pf-selected]) {
+        border-color: transparent;
+        background: var(--surface-color);
+    }
+}
+
+.pf-result-image,
+.pf-skeleton-image {
+    display: none;
+}
+
+.pf-result-title {
+    font-weight: 600;
+    line-height: var(--metadata-line-height);
+}
+
+.pf-result-excerpt {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    white-space: normal;
+    line-height: 1.5;
+
+    & mark {
+        background: none;
+        font-weight: 500;
+    }
+}
+
+.pf-modal-footer {
+    background: var(--surface-color);
+}
+
+/* Pagefind hides the keyboard hints on a touch screen, which left their
+   tinted strip empty. Nothing else lives there, so it goes too. */
+@media (hover: none) {
+    .pf-modal-footer {
+        display: none;
+    }
+}
+
 /*
  * Theme toggle, copied from seanvoisen.com so it looks and behaves the same.
  */
 .theme-toggle {
-    margin-left: var(--space-s);
     line-height: 0;
 }
 
@@ -350,8 +550,7 @@ html :is(
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .theme-toggle__icon,
-    svg.logo {
+    .theme-toggle__icon {
         transition: none;
     }
 }
