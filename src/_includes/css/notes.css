@@ -175,9 +175,19 @@ body {
     min-height: 100dvh;
 }
 
+/* Main and the article in it both stretch, so a note's backlinks band can
+   push down to sit on the footer however short the note is. */
 .main {
+    display: flex;
+    flex-direction: column;
     flex: 1;
     padding-top: var(--space-xl);
+}
+
+.note {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 /* --width is in em, so these take --font-size-0 from body: a size set on them
@@ -213,6 +223,7 @@ body {
  * clamped to four lines so the grid keeps one rhythm.
  */
 .backlinks {
+    margin-top: auto;
     padding: var(--space-xl) var(--notes-gutter) var(--space-2xl);
     background-color: var(--band-color);
 
@@ -322,6 +333,13 @@ body {
     box-shadow: 0 8px 24px light-dark(rgb(0 0 0 / 0.12), rgb(0 0 0 / 0.5));
     font-size: var(--font-size--1);
     line-height: var(--prose-line-height);
+
+    /* The note's own region comes in with the page's gutter and bottom
+       space; the card's padding is the only inset it needs here. */
+    & .note__content {
+        max-width: none;
+        padding: 0;
+    }
 
     & h1 {
         font-size: var(--font-size-1);
