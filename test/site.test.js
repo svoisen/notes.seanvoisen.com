@@ -131,3 +131,17 @@ test("every page offers the search trigger", () => {
         assert.match(site.read(page), /\/pagefind\/pagefind-component-ui\.js/);
     }
 });
+
+test("Pagefind's stylesheet loads with a link, in its layer, after the layer order is set", () => {
+    const site = buildSite();
+    const home = site.read("index.html");
+    const order = home.indexOf("<style>@layer base, pagefind;</style>");
+    const link = home.indexOf('<link rel="stylesheet" href="/pagefind/pagefind-component-ui.layered.css">');
+    assert.ok(order !== -1 && link > order, "the layer order statement precedes the stylesheet link");
+    assert.doesNotMatch(home, /@import/);
+
+    const layered = site.read("pagefind/pagefind-component-ui.layered.css");
+    assert.match(layered, /^@layer pagefind \{\n/);
+    assert.match(layered, /\}\n$/);
+    assert.ok(layered.includes(site.read("pagefind/pagefind-component-ui.css")));
+});
