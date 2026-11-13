@@ -80,6 +80,28 @@
         }
     }
 
+    /* Icon hints, as on the main site: an arrow out of a box for a link that
+       leaves this notebook, a download arrow for a file. Note links are all
+       root-relative, so any href carrying a scheme points elsewhere.
+
+       The main site draws the icon as an inline-block, which leaves a break
+       opportunity after it and can strand a following comma at the start of
+       the next line. An inline box drawn with padding has none. */
+    a[href*="//"]:not([href^="https://notes.seanvoisen.com"], [href$=".pdf"], [href$=".zip"], [href$=".gz"], :has(img))::after,
+    a:is([href$=".pdf"], [href$=".zip"], [href$=".gz"])::after {
+        content: "";
+        padding-left: calc(var(--icon-size) + var(--icon-margin));
+        background-color: currentColor;
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='currentColor'%3E%3Cpath d='M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v1.69a.75.75 0 0 0 1.5 0v-3.5a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h1.69L6.22 8.72z'/%3E%3Cpath d='M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5z'/%3E%3C/svg%3E");
+        mask-size: var(--icon-size);
+        mask-repeat: no-repeat;
+        mask-position: right center;
+    }
+
+    a:is([href$=".pdf"], [href$=".zip"], [href$=".gz"])::after {
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='currentColor'%3E%3Cpath d='M2.75 14A1.75 1.75 0 0 1 1 12.25v-2.5a.75.75 0 0 1 1.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25v-2.5a.75.75 0 0 1 1.5 0v2.5A1.75 1.75 0 0 1 13.25 14Z'/%3E%3Cpath d='M7.25 7.689V2a.75.75 0 0 1 1.5 0v5.689l1.97-1.969a.749.749 0 1 1 1.06 1.06l-3.25 3.25a.749.749 0 0 1-1.06 0L4.22 6.78a.749.749 0 1 1 1.06-1.06l1.97 1.969Z'/%3E%3C/svg%3E");
+    }
+
     p {
         margin: var(--space-m) 0;
     }
