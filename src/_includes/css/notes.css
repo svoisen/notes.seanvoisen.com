@@ -436,12 +436,18 @@ html :is(
     display: none;
 }
 
-/* The shortcut keys are a tint without an outline, and their corners step
-   down from the trigger's so the two read as nested. */
-.pf-trigger-key {
+/* Every keycap, in the trigger and in the popover's hints, is one size: a
+   tint without an outline, its corners stepped down from the trigger's so
+   the two read as nested. Pagefind sets the hints a size smaller. */
+:is(.pf-trigger-key, .pf-keyboard-key) {
+    min-width: 20px;
+    height: 18px;
+    padding: 0 4px;
     border-color: transparent;
     border-radius: 3px;
     background-color: var(--surface-color);
+    font-size: 11px;
+    line-height: 1;
 }
 
 @media (min-width: 641px) {
@@ -479,8 +485,10 @@ dialog.pf-modal::backdrop {
     }
 }
 
-/* Results are rows, not cards: no border, and the selected row takes the
-   band's tint. Notes have no images, so the image slot goes. */
+/* Results are rows, not cards: no border and no lift, and the hovered or
+   selected row takes the band's tint. Elevation belongs to the popover
+   alone, so Pagefind's hover shadow goes; its focus ring, also a shadow,
+   stays. Notes have no images, so the image slot goes. */
 .pf-result-card {
     padding: 10px var(--space-xs);
     border-color: transparent;
@@ -491,6 +499,22 @@ dialog.pf-modal::backdrop {
         border-color: transparent;
         background: var(--surface-color);
     }
+
+    &:hover:not(:has(.pf-result-link:focus-visible)) {
+        box-shadow: none;
+    }
+}
+
+/* Before anything is typed the body holds nothing, which left an empty
+   strip between the input and the hints. It folds away until there's a
+   summary or a result (or a loading skeleton) to show, and the input's
+   rule then does the footer's job of dividing the two. */
+.pf-modal-body:has(.pf-summary:empty):not(:has(.pf-results > *)) {
+    display: none;
+}
+
+dialog.pf-modal:has(.pf-summary:empty):not(:has(.pf-results > *)) .pf-modal-footer {
+    border-top-color: transparent;
 }
 
 .pf-result-image,
@@ -517,8 +541,14 @@ dialog.pf-modal::backdrop {
     }
 }
 
+/* The hints sit on the band's tint, so their keys flip to the page colour:
+   the same one step of contrast as the trigger's tinted keys on white. */
 .pf-modal-footer {
     background: var(--surface-color);
+
+    & .pf-keyboard-key {
+        background-color: var(--background-color);
+    }
 }
 
 /* Pagefind hides the keyboard hints on a touch screen, which left their
