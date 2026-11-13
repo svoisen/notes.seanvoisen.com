@@ -1,0 +1,5 @@
+- Fostering computational literacy in children
+- [[§Designing tools to support human thinking and creativity]]
+- Designing and building malleable and convivial tools
+- How to lead software teams
+- Personal tools as platforms for invention
