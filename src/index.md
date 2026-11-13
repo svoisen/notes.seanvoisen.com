@@ -4,6 +4,6 @@ layout: page
 permalink: /
 ---
 
-These are my evergreen notes: short, linked ideas about design, cognition, and tools for thought. They change as my thinking does.
+Hello! I'm [Sean Voisen](https://seanvoisen.com) and you've stumbled on my public notebook.
 
-Follow any link to read the next note. Hover a link to preview it first.
+ You can think of this place like a kind of [digital garden](https://nesslabs.com/digital-garden-set-up). These pages contain my evergreen notes: short, linked ideas about design, cognition, philosophy, software and leadership. Each note may change and evolve with my own thinking.

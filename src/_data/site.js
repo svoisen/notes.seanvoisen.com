@@ -1,6 +1,6 @@
 export const base = process.env.URL || "https://notes.seanvoisen.com";
-export const title = "Sean Voisen · Notes";
-export const description = "Sean Voisen's evergreen notes on design, cognition, and tools for thought.";
+export const title = "Sean’s public notebook";
+export const description = "Sean's working notes on design, cognition, philosophy, computing and other topics.";
 export const mainSite = "https://seanvoisen.com";
 export const author = {
   name: "Sean Voisen"

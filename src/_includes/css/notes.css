@@ -84,10 +84,18 @@
         margin: var(--space-m) 0;
     }
 
+    /* Note titles are whole sentences; balancing keeps a lone word off
+       their last line. */
     :is(h1, h2, h3, h4, h5, h6) {
         font-family: var(--font-family-heading);
         font-weight: var(--heading-font-weight);
         line-height: var(--heading-line-height);
+        text-wrap: balance;
+    }
+
+    /* Selection takes the accent, thinned so the text keeps its contrast. */
+    ::selection {
+        background-color: color-mix(in srgb, var(--link-hover-color) 22%, transparent);
     }
 
     /* Note titles are whole sentences, so the title steps down from the main
@@ -145,12 +153,14 @@
 .header {
     display: flex;
     align-items: center;
-    gap: var(--space-s);
     padding: var(--space-l) var(--notes-gutter);
 }
 
+/* The search and the toggle read as one cluster, so the space is spent
+   between the wordmark and them, not between the two. */
 .wordmark {
     flex: 1;
+    margin-right: var(--space-s);
     font-weight: 600;
     letter-spacing: -0.005em;
     line-height: var(--heading-line-height);
@@ -184,6 +194,10 @@ body {
 
     & h1 + p {
         margin-top: var(--space-l);
+    }
+
+    & :is(p, li) {
+        text-wrap: pretty;
     }
 
     & img {
@@ -253,40 +267,32 @@ body {
 
 /*
  * Footer. Shares the band's tint, with a rule between them, so on a note
- * with backlinks the two read as one closing block. The lines inside match
- * seanvoisen.com's footer.
+ * with backlinks the two read as one closing block. It spans the frame the
+ * way the header does: the legal lines on the left gutter, the way back to
+ * seanvoisen.com on the right one, both on the first line's baseline. On a
+ * phone the link wraps under them. Set a step below the backlinks' type,
+ * since it is the quietest thing on the page.
  */
 .footer {
-    padding: var(--space-l) var(--notes-gutter) var(--space-xl);
-    background-color: var(--band-color);
-    border-top: 1px solid var(--band-border-color);
-
-    & p {
-        margin: 0;
-        font-size: var(--font-size--1);
-    }
-}
-
-.footer__inner {
-    max-width: var(--width);
-}
-
-.footer__row {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
     justify-content: space-between;
-    gap: 0 var(--space-s);
+    gap: var(--space-xs) var(--space-l);
+    padding: var(--space-l) var(--notes-gutter) var(--space-xl);
+    background-color: var(--band-color);
+    border-top: 1px solid var(--band-border-color);
+    color: var(--deemphasized-color);
+
+    & p {
+        margin: 0;
+        font-size: var(--font-size--2);
+        line-height: var(--metadata-line-height);
+    }
 }
 
 .footer__copyright {
-    color: var(--deemphasized-color);
-    white-space: nowrap;
-}
-
-.footer__licence {
-    margin-top: var(--space-2xs);
-    color: var(--deemphasized-color);
+    color: var(--foreground-color);
 }
 
 /* Chrome, so its links sit in the deemphasized tier, as on the main site. */
@@ -387,14 +393,37 @@ html :is(
     font-family: var(--pf-font);
 }
 
+/* Pagefind's trigger is inline-block, so it sat on the text baseline of
+   a line box taller than itself, 4px above the header's centre line. */
+.search {
+    display: flex;
+}
+
 /* The trigger takes the main site's input border, and drops the magnifier:
-   the word says what it is. */
+   the word says what it is. On hover the border and the word darken one
+   step each; Pagefind's own hover resolves to the resting border. */
 .pf-trigger-btn {
     border-color: var(--input-border-color);
+    transition-property: border-color, color, box-shadow;
+    transition-duration: 150ms;
+    transition-timing-function: ease-out;
+
+    &:hover {
+        border-color: var(--deemphasized-color);
+        color: var(--foreground-color);
+    }
 }
 
 .pf-trigger-icon {
     display: none;
+}
+
+/* The shortcut keys are a tint without an outline, and their corners step
+   down from the trigger's so the two read as nested. */
+.pf-trigger-key {
+    border-color: transparent;
+    border-radius: 3px;
+    background-color: var(--surface-color);
 }
 
 @media (min-width: 641px) {
@@ -501,11 +530,16 @@ dialog.pf-modal::backdrop {
     outline-offset: var(--focus-outline-offset);
 }
 
+/* The hit area is as tall as the search trigger beside it, with the icon
+   centred in it. The negative margin pulls the drawn glyph, which sits about
+   2px inside its 16px box, onto the right gutter, where the popover's edge
+   also falls. */
 .theme-toggle__label {
     position: relative;
     display: block;
     width: 40px;
-    height: 24px;
+    height: var(--pf-input-height, 36px);
+    margin-right: -14px;
     border-radius: var(--border-radius-sm);
     cursor: pointer;
 
@@ -516,17 +550,43 @@ dialog.pf-modal::backdrop {
 
 .theme-toggle__icon {
     position: absolute;
-    top: 50%;
-    right: 0;
+    inset: 0;
+    margin: auto;
     width: 1rem;
     height: 1rem;
-    transform: translateY(-50%);
     background-color: var(--theme-toggle-foreground-color);
-    transition: background-color 0.2s ease, opacity 0.2s ease;
+    transition: background-color 0.2s ease;
+}
+
+/*
+ * The outgoing icon shrinks and blurs away as the incoming one resolves in
+ * its place. The motion is only armed while the pointer or focus is on the
+ * toggle, so the script that syncs the checkbox on page load swaps the icon
+ * without animating it.
+ */
+.theme-toggle:is(:hover, :focus-within) .theme-toggle__icon {
+    transition:
+        background-color 0.2s ease,
+        opacity 0.3s cubic-bezier(0.2, 0, 0, 1),
+        scale 0.3s cubic-bezier(0.2, 0, 0, 1),
+        filter 0.3s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.theme-toggle__icon--moon,
+.theme-toggle__input:checked + .theme-toggle__label .theme-toggle__icon--sun {
+    opacity: 0;
+    scale: 0.25;
+    filter: blur(4px);
+}
+
+.theme-toggle__icon--sun,
+.theme-toggle__input:checked + .theme-toggle__label .theme-toggle__icon--moon {
+    opacity: 1;
+    scale: 1;
+    filter: blur(0);
 }
 
 .theme-toggle__icon--sun {
-    opacity: 1;
     mask-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2020%2020'%20fill='currentColor'%20%3E%3Cpath%20fill-rule='evenodd'%20d='M10%202a1%201%200%20011%201v1a1%201%200%2011-2%200V3a1%201%200%20011-1zm4%208a4%204%200%2011-8%200%204%204%200%20018%200zm-.464%204.95l.707.707a1%201%200%20001.414-1.414l-.707-.707a1%201%200%2000-1.414%201.414zm2.12-10.607a1%201%200%20010%201.414l-.706.707a1%201%200%2011-1.414-1.414l.707-.707a1%201%200%20011.414%200zM17%2011a1%201%200%20100-2h-1a1%201%200%20100%202h1zm-7%204a1%201%200%20011%201v1a1%201%200%2011-2%200v-1a1%201%200%20011-1zM5.05%206.464A1%201%200%20106.465%205.05l-.708-.707a1%201%200%2000-1.414%201.414l.707.707zm1.414%208.486l-.707.707a1%201%200%2001-1.414-1.414l.707-.707a1%201%200%20011.414%201.414zM4%2011a1%201%200%20100-2H3a1%201%200%20000%202h1z'%20clip-rule='evenodd'%20/%3E%3C/svg%3E");
     mask-size: contain;
     mask-repeat: no-repeat;
@@ -534,23 +594,15 @@ dialog.pf-modal::backdrop {
 }
 
 .theme-toggle__icon--moon {
-    opacity: 0;
     mask-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20fill='currentColor'%20viewBox='0%200%2024%2024'%20%3E%3Cpath%20d='M20.354%2015.354A9%209%200%20018.646%203.646%209.003%209.003%200%200012%2021a9.003%209.003%200%20008.354-5.646z'%20/%3E%3C/svg%3E");
     mask-size: contain;
     mask-repeat: no-repeat;
     mask-position: center;
 }
 
-.theme-toggle__input:checked + .theme-toggle__label .theme-toggle__icon--sun {
-    opacity: 0;
-}
-
-.theme-toggle__input:checked + .theme-toggle__label .theme-toggle__icon--moon {
-    opacity: 1;
-}
-
 @media (prefers-reduced-motion: reduce) {
-    .theme-toggle__icon {
+    .theme-toggle__icon,
+    .theme-toggle:is(:hover, :focus-within) .theme-toggle__icon {
         transition: none;
     }
 }

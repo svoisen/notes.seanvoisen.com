@@ -1,10 +1,8 @@
 <footer class="footer">
-    <div class="footer__inner">
-        {# The copyright and licence lines match seanvoisen.com's footer word for word. #}
-        <div class="footer__row">
-            <p class="footer__links"><a href="{{ site.mainSite }}">seanvoisen.com</a></p>
-            <p class="footer__copyright">© 2008–{{ site.currentYear }} {{ site.author.name }}</p>
-        </div>
+    {# The copyright and licence lines match seanvoisen.com's footer word for word. #}
+    <div class="footer__legal">
+        <p class="footer__copyright">© {{ site.currentYear }} {{ site.author.name }}</p>
         <p class="footer__licence" xmlns:cc="http://creativecommons.org/ns#">All content licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="license noopener noreferrer">CC BY-SA 4.0</a>.</p>
     </div>
+    <p class="footer__links"><a href="{{ site.mainSite }}">seanvoisen.com</a></p>
 </footer>
