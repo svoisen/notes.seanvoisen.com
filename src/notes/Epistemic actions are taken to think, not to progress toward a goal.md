@@ -9,4 +9,4 @@ What's important here is that epistemic actions are not always seen by actors as
  But this raises a question I don't have a good answer for: Is the action truly separate from cognition at all? Both embodied and distributed cognition might question the very notion of precedence here since action and "thought" could all be wrapped up into a single cognitive act.
 ## References
 
-[[Kirsh - 1994 - On Distinguishing Epistemic from Pragmatic Action|Kirsh, D. and Maglio, P. (1994) On Distinguishing Epistemic from Pragmatic Action.]]
+Kirsh, D. and Maglio, P. (1994) *On Distinguishing Epistemic from Pragmatic Action.*

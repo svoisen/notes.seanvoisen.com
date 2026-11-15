@@ -1,4 +1,9 @@
-
+---
+tags:
+  - type/evergreen
+  - topic/architecture
+  - topic/adaptive-design
+---
 In *How Buildings Learn*, Stuart Brand describes “low road” buildings as cheap, adaptable buildings that can be used for multiple purposes. The nature of their construction encourages “hacking” of the space to mold the space to its inhabitants needs. This encourages highly-creative application of the space itself. Brand writes:
 
 > Low Road buildings are low-visibility, low-rent, no-style, high-turnover. Most of the world’s work is done in Low Road buildings, and even in rich societies, the most inventive creativity, especially youthful creativity, will be found in Low Road buildings taking full advantage of the license to try new things.
@@ -13,10 +18,16 @@ This means, ultimately, that the designer is removing themselves from the produc
 
 > There’s a theme of humility running through adaptive design; of making the ‘designer-as-personality’ invisible, foregrounding the design itself, as a shared terrain. This also invites the non-designer in. This partnership aims to nurture well-designed solutions from people, rather than attempting to complete generalised products.
 
-Low road buildings and low road software are thus “low ego.” In order to be “alive” and malleable they can’t be over-designed. [[Christopher Alexander]] makes a similar observation in ~The Timeless Way of Building~, which is called out in the essay [The Timeless Way of Programming](http://tomasp.net/blog/2022/timeless-way/)
+Low road buildings and low road software are thus “low ego.” In order to be “alive” and malleable they can’t be over-designed. Christopher Alexander makes a similar observation in *The Timeless Way of Building*, which is called out in the essay [The Timeless Way of Programming](http://tomasp.net/blog/2022/timeless-way/)
 
 > Another characteristic that Alexander emphasizes is that "we can only make a building live when we are egoless"
 
-Also from [[Christopher Alexander]]:
+Also from Christopher Alexander:
 
 > When a place is lifeless or unreal, there is almost always a mastermind behind it. It is so filled with the will of the maker that there is no room for its own nature.
+
+What does this all mean for personal tools or "home cooked" software, though? I often posit that [[Personal software can serve as a platform for user interface invention]], and it's hard to say that personal tools are "low ego." Yet, at the same time, they can be some of the most "low road" kind of software imaginable—evolving with whims, exhibiting all kinds of emergent behavior.
+
+## References
+
+Brand, S. (1994) *How Buildings Learn*.

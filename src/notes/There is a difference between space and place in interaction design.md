@@ -11,4 +11,4 @@ There are frameworks, such as Geraldine Fitzpatrick's [Locales Framework](https:
 
 ## References
 
-Dourish, P. (2004) Where the Action Is.
+Dourish, P. (2004) *Where the Action Is.*

@@ -24,4 +24,4 @@ Relating Bruner's theory to principles of the GUI, Kay then breaks it down as fo
 All of this leads Alan Kay to his pithy motto: "Doing with images makes symbols."
 ## References
 
-[[Kay - 1990 - User Interface - A Personal View|Kay, A. (1990) User Interface: A Personal View]]
+Kay, A. (1990) *User Interface: A Personal View.*

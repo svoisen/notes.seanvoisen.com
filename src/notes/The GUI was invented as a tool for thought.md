@@ -16,4 +16,4 @@ Emphasis on the *environment in which users learn by doing.* Bruner was highly i
 Unfortunately, the GUI's origins as a tool for thought have largely been overlooked in today's computing environment. Most people today see graphical interfaces only as systems to support ease of use and discoverability, even though well-designed [[Interfaces can enable entirely new modes of thought]]!
 ## References
 
-Kay, A. (1993) The Early History of Smalltalk.
+Kay, A. (1993) *The Early History of Smalltalk.*

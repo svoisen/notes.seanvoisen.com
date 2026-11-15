@@ -1,4 +1,4 @@
-[[Kirsh - 2001 - The Context of Work|David Kirsh notes]] that physical office environments can generally be placed somewhere on the "scruffy" to "neat" spectrum in terms of how they are organized. Some offices are sparse and clean and orderly (neat), others are often messy, cluttered, and in disarray (scruffy). 
+David Kirsh notes that physical office environments can generally be placed somewhere on the "scruffy" to "neat" spectrum in terms of how they are organized. Some offices are sparse and clean and orderly (neat), others are often messy, cluttered, and in disarray (scruffy). 
 
 Each of these arrangements has advantages and disadvantages. For instance, [[There are more activity entry points in messy (scruffy) spaces]].
 
@@ -17,3 +17,5 @@ If all of these digital spaces are "neat," then making these connections becomes
 ## References
 
 Kirsh, D. (2001) The Context of Work.
+
+McGranaghan, M., Keskin, G., Wiggins, A., & Roggatz, J. (2019, April 4). _Muse: Designing a studio for ideas_. Ink & Switch. [https://www.inkandswitch.com/muse/](https://www.inkandswitch.com/muse/)

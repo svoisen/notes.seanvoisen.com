@@ -29,4 +29,5 @@ All of it reminiscent of McLuhan's earliest observation about media:
 ## References
 
 Kirsh, D. (2006) Distributed Cognition: A Methodological Note.
-Shaffer, D. and K. Clinton. (2006) Toolforthoughts: Reexamining Thinking in the Digital Age.
+
+Shaffer, D. and K. Clinton. (2006) *Toolforthoughts: Reexamining Thinking in the Digital Age.*

@@ -20,4 +20,4 @@ For instance, I have a hunch that [[Digital collaborative environments tend to b
 
 ## References
 
-[[Kirsh - 2001 - The Context of Work|Kirsh, D. (2001) The Context of Work.]]
+Kirsh, D. (2001) *The Context of Work.*

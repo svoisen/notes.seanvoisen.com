@@ -12,4 +12,4 @@ Kirsh notes that good design which accounts for metacognition can "blur" metacog
 
 ## References
 
-Kirsh, D. (2005) Metacognition, Distributed Cognition and Visual Design.
+Kirsh, D. (2005) *Metacognition, Distributed Cognition and Visual Design.*

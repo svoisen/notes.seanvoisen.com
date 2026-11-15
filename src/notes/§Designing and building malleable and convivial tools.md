@@ -1,0 +1,2 @@
+- [["Low road" software, like "low road buildings," is about design for emergence]]
+- [[A definition of convivial computing]]

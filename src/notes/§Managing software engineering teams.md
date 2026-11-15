@@ -1,0 +1,1 @@
+- [[Software engineering management resources]]

@@ -26,4 +26,4 @@ Visual programming environments can and should make it easy for a user to get an
 
 ## References
 
-Kay, A. (1996) The Early History of Smalltalk.
+Kay, A. (1996) *The Early History of Smalltalk.*

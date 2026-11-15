@@ -6,7 +6,7 @@ tags:
 ---
 It's common for people to create extra representations of problems or other things they need to understand (situations, diagrams, illustrations) even if all the information they need is directly in front of them. Why?
 
-[[Kirsh - 2009 - Interaction, External Representation and Sense Making|Kirsh gives a few reasons for why people create external representations]]. All of these point to a principle of *project then materialize* that seems common in humans. We create a representation, but then modify the world to "materialize or reify" the projection. We use representations not just to reduce our load on our own working memory—or even to simply offload computation—but to understand and accomplish things that would otherwise be difficult or impossible to accomplish without the external referrent. Often the value comes from deeper, broader or shared sense making.
+Kirsh gives a few reasons for why people create external representations. All of these point to a principle of *project then materialize* that seems common in humans. We create a representation, but then modify the world to "materialize or reify" the projection. We use representations not just to reduce our load on our own working memory—or even to simply offload computation—but to understand and accomplish things that would otherwise be difficult or impossible to accomplish without the external referrent. Often the value comes from deeper, broader or shared sense making.
 
 Here are a few examples that Kirsh notes:
 
@@ -16,3 +16,4 @@ Here are a few examples that Kirsh notes:
 
 ## References
 
+Kirsh, D. (2009) Interaction, External Representation and Sense Making. 

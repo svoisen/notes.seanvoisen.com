@@ -16,4 +16,4 @@ On the topic of activity entry points, specifically, [[Digital collaborative env
 But Kirsh seems to say we have to go beyond what we see in any analysis anyway. We have to go beyond the "simple facts of who or what is where and when" because some of the context of the complex ecology may not be directly observable in the physical environment. For instance, resources could be purely conceptual or shared knowledge between two inhabitants of the workspace. Design of virtual workspaces will have to take this into account.
 ## References
 
-Kirsh, D. (2001) The Context of Work.
+Kirsh, D. (2001) *The Context of Work.*

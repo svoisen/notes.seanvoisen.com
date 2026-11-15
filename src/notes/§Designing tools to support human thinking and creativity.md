@@ -1,4 +1,3 @@
-This is, of course, a broad topic. A few starting places:
 ## Interface design
 - [[Interfaces can enable entirely new modes of thought]].
 - It's worth noting that [[The GUI was invented as a tool for thought]] in the first place!

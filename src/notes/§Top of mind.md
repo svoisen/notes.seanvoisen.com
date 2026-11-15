@@ -1,5 +1,5 @@
 - Fostering computational literacy in children
 - [[§Designing tools to support human thinking and creativity]]
-- Designing and building malleable and convivial tools
-- How to lead software teams
-- Personal tools as platforms for invention
+- [[§Designing and building malleable and convivial tools]]
+- [[§Managing software engineering teams]]
+- Building personal software as a platform for invention

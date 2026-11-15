@@ -1,8 +1,24 @@
 {
     "notes": {
+        "a-definition-of-convivial-computing": {
+            "title": "A definition of convivial computing",
+            "path": "A definition of convivial computing.md"
+        },
         "action-can-precede-cognition": {
             "title": "Action can precede cognition",
             "path": "Action can precede cognition.md"
+        },
+        "design-for-customization-allows-for-a-greater-sense-of-personal-ownership": {
+            "title": "Design for customization allows for a greater sense of personal ownership",
+            "path": "Design for customization allows for a greater sense of personal ownership.md"
+        },
+        "designing-and-building-malleable-and-convivial-tools": {
+            "title": "§Designing and building malleable and convivial tools",
+            "path": "§Designing and building malleable and convivial tools.md"
+        },
+        "designing-for-muscle-memory-means-designing-for-mastery": {
+            "title": "Designing for muscle memory means designing for mastery",
+            "path": "Designing for muscle memory means designing for mastery.md"
         },
         "designing-tools-to-support-human-thinking-and-creativity": {
             "title": "§Designing tools to support human thinking and creativity",
@@ -11,6 +27,10 @@
         "digital-collaborative-environments-tend-to-be-neat": {
             "title": "Digital collaborative environments tend to be neat",
             "path": "Digital collaborative environments tend to be neat.md"
+        },
+        "end-user-programming-is-more-attainable-when-internal-and-external-apis-overlap": {
+            "title": "End-user programming is more attainable when internal and external APIs overlap",
+            "path": "End-user programming is more attainable when internal and external APIs overlap.md"
         },
         "epistemic-actions-are-taken-to-think-not-to-progress-toward-a-goal": {
             "title": "Epistemic actions are taken to think, not to progress toward a goal",
@@ -36,9 +56,17 @@
             "title": "\"Low road\" software, like \"low road buildings,\" is about design for emergence",
             "path": "\"Low road\" software, like \"low road buildings,\" is about design for emergence.md"
         },
+        "managing-software-engineering-teams": {
+            "title": "§Managing software engineering teams",
+            "path": "§Managing software engineering teams.md"
+        },
         "offices-and-workspaces-are-complex-ecologies-of-work": {
             "title": "Offices and workspaces are complex ecologies of work",
             "path": "Offices and workspaces are complex ecologies of work.md"
+        },
+        "personal-software-can-serve-as-a-platform-for-user-interface-invention": {
+            "title": "Personal software can serve as a platform for user interface invention",
+            "path": "Personal software can serve as a platform for user interface invention.md"
         },
         "physical-space-can-act-as-scaffolding-for-creative-work": {
             "title": "Physical space can act as scaffolding for creative work",
@@ -47,6 +75,10 @@
         "programming-is-a-kind-of-literacy-and-tools-alone-are-insufficient-to-make-that-literacy-happen": {
             "title": "Programming is a kind of literacy and tools alone are insufficient to make that literacy happen",
             "path": "Programming is a kind of literacy and tools alone are insufficient to make that literacy happen.md"
+        },
+        "software-engineering-management-resources": {
+            "title": "Software engineering management resources",
+            "path": "Software engineering management resources.md"
         },
         "the-fundamental-unit-of-design-analysis-should-be-the-tool-user-system": {
             "title": "The fundamental unit of design analysis should be the tool-user system",

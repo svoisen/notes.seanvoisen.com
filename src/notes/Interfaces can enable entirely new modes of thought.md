@@ -20,4 +20,5 @@ Increasingly, I believe that for such an interface to be transformational, it ne
 ## References
 
 [Nielsen, M. (2016) Thought as a Technology.](https://cognitivemedium.com/tat/)
-[[Kirsh - 2009 - Interaction, External Representation and Sense Making|Kirsh, D. (2009) Interaction, External Representation and Sense Making.]]
+
+Kirsh, D. (2009) Interaction, External Representation and Sense Making.
