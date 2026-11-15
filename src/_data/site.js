@@ -1,5 +1,5 @@
 export const base = process.env.URL || "https://notes.seanvoisen.com";
-export const title = "Sean’s public notebook";
+export const title = "Sean’s Public Notebook";
 export const description = "Sean's working notes on design, cognition, philosophy, computing and other topics.";
 export const mainSite = "https://seanvoisen.com";
 export const author = {
