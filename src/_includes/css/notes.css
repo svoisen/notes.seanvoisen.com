@@ -6,16 +6,11 @@
  */
 :root {
     /*
-     * One face. The main site sets headings and UI in Outfit; the notes site
-     * sets everything in IBM Plex Sans, which is what sets it apart. The
-     * Outfit @font-face in tokens.css stays as copied, and a face nothing
-     * uses is never downloaded.
+     * Headings and the wordmark take Outfit at the main site's weights, as
+     * tokens.css sets them. UI text stays in IBM Plex Sans with the body, so
+     * the controls read as part of the page rather than as headings.
      */
-    /* --font-family-heading: var(--font-family-body); */
     --font-family-ui: var(--font-family-body);
-    /* Plex's variable font tops out at 700, and 800 Outfit's black weight
-       has no equal in it. SemiBold carries the same rank without shouting. */
-    /* --heading-font-weight: 600; */
 
     /*
      * The page's left edge. Content sits left-aligned against it rather than
