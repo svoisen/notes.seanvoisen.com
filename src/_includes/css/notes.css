@@ -6,25 +6,19 @@
  */
 :root {
     /*
-     * Headings and the wordmark take Outfit at the main site's weights, as
-     * tokens.css sets them. UI text stays in IBM Plex Sans with the body, so
-     * the controls read as part of the page rather than as headings.
-     */
-    --font-family-ui: var(--font-family-body);
-
-    /*
      * The page's left edge. Content sits left-aligned against it rather than
      * centred, so it is wider than the main site's --page-gutter on a desk-
      * top and falls back to it on a phone. 5vw is 72px at 1440.
      */
     --notes-gutter: clamp(var(--page-gutter), 5vw, 4.5rem);
 
+    /* Air above the header, as on the main site: generous on a desktop,
+       a step tighter on a phone, where the window's top is worth more. */
+    --header-top: var(--space-2xl);
+
     /* The band behind the backlinks and the footer under it. */
     --band-color: var(--surface-color);
     --band-border-color: var(--border-color);
-
-    --preview-background-color: var(--background-color);
-    --preview-border-color: var(--border-color);
 }
 
 /*
@@ -177,7 +171,14 @@
 .header {
     display: flex;
     align-items: center;
-    padding: var(--space-l) var(--notes-gutter);
+    padding: var(--header-top) var(--notes-gutter) var(--space-l);
+}
+
+/* The main site's phone breakpoint. */
+@media (max-width: 567px) {
+    :root {
+        --header-top: var(--space-xl);
+    }
 }
 
 /* The search and the toggle read as one cluster, so the space is spent
@@ -278,6 +279,7 @@ body {
 
 .backlink__title {
     display: block;
+    font-family: var(--font-family-heading);
     font-size: var(--font-size--1);
     font-weight: 600;
     line-height: var(--metadata-line-height);
@@ -352,8 +354,8 @@ body {
     max-height: min(24rem, 50vh);
     overflow: auto;
     padding: var(--space-s) var(--space-m);
-    background-color: var(--preview-background-color);
-    border: 1px solid var(--preview-border-color);
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
     border-radius: var(--border-radius-md);
     box-shadow: 0 8px 24px light-dark(rgb(0 0 0 / 0.12), rgb(0 0 0 / 0.5));
     font-size: var(--font-size--1);
@@ -463,14 +465,17 @@ html :is(
 
 /* Every keycap, in the trigger and in the popover's hints, is one size: a
    tint without an outline, its corners stepped down from the trigger's so
-   the two read as nested. Pagefind sets the hints a size smaller. */
+   the two read as nested. Pagefind sets the hints a size smaller. The tint
+   is the raised step and the label full-strength, since at this size the
+   surface step barely shows against the page. */
 :is(.pf-trigger-key, .pf-keyboard-key) {
     min-width: 20px;
     height: 18px;
     padding: 0 4px;
     border-color: transparent;
     border-radius: 3px;
-    background-color: var(--surface-color);
+    background-color: var(--surface-raised-color);
+    color: var(--foreground-color);
     font-size: 11px;
     line-height: 1;
 }
@@ -478,7 +483,7 @@ html :is(
 @media (min-width: 641px) {
     /* Right-aligned under the trigger, just below it. */
     dialog.pf-modal {
-        margin: calc(var(--space-l) + var(--pf-input-height) + var(--space-2xs)) var(--notes-gutter) auto auto;
+        margin: calc(var(--header-top) + var(--pf-input-height) + var(--space-2xs)) var(--notes-gutter) auto auto;
         max-height: min(70dvh, 40rem);
         border: 1px solid var(--border-color);
         border-radius: var(--border-radius-md);
