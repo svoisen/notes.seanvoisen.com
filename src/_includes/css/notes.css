@@ -11,11 +11,11 @@
      * Outfit @font-face in tokens.css stays as copied, and a face nothing
      * uses is never downloaded.
      */
-    --font-family-heading: var(--font-family-body);
+    /* --font-family-heading: var(--font-family-body); */
     --font-family-ui: var(--font-family-body);
     /* Plex's variable font tops out at 700, and 800 Outfit's black weight
        has no equal in it. SemiBold carries the same rank without shouting. */
-    --heading-font-weight: 600;
+    /* --heading-font-weight: 600; */
 
     /*
      * The page's left edge. Content sits left-aligned against it rather than
@@ -190,6 +190,7 @@
 .wordmark {
     flex: 1;
     margin-right: var(--space-s);
+    font-family: var(--font-family-heading);
     font-weight: 600;
     letter-spacing: -0.005em;
     line-height: var(--heading-line-height);
