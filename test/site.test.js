@@ -17,15 +17,14 @@ test("pages carry no <base> element", () => {
     assert.doesNotMatch(site.read("index.html"), /<base\b/);
 });
 
-test("inlined CSS carries the copied brand tokens: Plex for text, Outfit for headings, both preloaded", () => {
+test("inlined CSS carries the copied brand tokens: IBM Plex Sans for everything, preloaded", () => {
     const home = buildSite().read("index.html");
     assert.match(home, /--background-color:/);
     assert.match(home, /--link-hover-color:/);
     assert.match(home, /font-family:IBM Plex Sans/);
-    assert.match(home, /font-family:Outfit/);
-    assert.doesNotMatch(home, /--font-family-heading:var\(--font-family-body\)/);
+    assert.match(home, /--font-family-heading:var\(--font-family-body\)/);
     assert.match(home, /ibm-plex-sans-variable-latin\.woff2" as="font"/);
-    assert.match(home, /outfit-latin\.woff2" as="font"/);
+    assert.doesNotMatch(home, /Outfit/);
 });
 
 test("the header names the site and the footer carries the main site's copyright and licence", () => {
