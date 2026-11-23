@@ -6,11 +6,18 @@
  */
 :root {
     /*
-     * The page's left edge. Content sits left-aligned against it rather than
-     * centred, so it is wider than the main site's --page-gutter on a desk-
-     * top and falls back to it on a phone. 5vw is 72px at 1440.
+     * The page's edges are the main site's: everything hangs from
+     * --page-inset on the left (96px at the wide end, closing to
+     * --page-gutter on a phone) and stops --page-gutter short of the right,
+     * so the wordmark and a note's title sit on the same line as the main
+     * site's logo and titles.
+     *
+     * The reading column. The main site narrowed its own to --measure
+     * (35.6em) when it gained a margin column beside the text; the notes
+     * have no margin column, so they keep the wider measure the two sites
+     * used to share. In em, so it tracks --font-size-0.
      */
-    --notes-gutter: clamp(var(--page-gutter), 5vw, 4.5rem);
+    --width: 38em;
 
     /* Air above the header, as on the main site: generous on a desktop,
        a step tighter on a phone, where the window's top is worth more. */
@@ -117,16 +124,19 @@
     }
 
     /* Note titles are whole sentences, so the title steps down from the main
-       site's --font-size-4: at that size most of them ran to four lines. */
+       site's --font-size-4: at that size most of them ran to four lines.
+
+       Tracking follows the main site's Plex values by size rather than by
+       rank: h1 here is --font-size-3, the main site's h2; h2 here is
+       --font-size-1, its h4, which Plex sets with no correction at all. */
     h1 {
         font-size: var(--font-size-3);
-        letter-spacing: -0.015em;
+        letter-spacing: -0.011em;
     }
 
     h2 {
         margin-top: var(--space-xl);
         font-size: var(--font-size-1);
-        letter-spacing: -0.01em;
     }
 
     h3 {
@@ -165,13 +175,16 @@
 
 /*
  * Page frame. Header, content, band, and footer all start at the same left
- * edge, --notes-gutter in from the window. The column is --width wide and
- * never centred.
+ * edge, --page-inset in from the window, and stop --page-gutter short of the
+ * right one. The column is --width wide and never centred.
+ *
+ * The header carries no space under it: the air between it and the title is
+ * .main's, as on the main site, so the title lands at the same height on both.
  */
 .header {
     display: flex;
     align-items: center;
-    padding: var(--header-top) var(--notes-gutter) var(--space-l);
+    padding: var(--header-top) var(--page-gutter) 0 var(--page-inset);
 }
 
 /* The main site's phone breakpoint. */
@@ -188,7 +201,6 @@
     margin-right: var(--space-s);
     font-family: var(--font-family-heading);
     font-weight: 600;
-    letter-spacing: -0.005em;
     line-height: var(--heading-line-height);
     text-decoration-line: none;
 }
@@ -207,7 +219,7 @@ body {
     display: flex;
     flex-direction: column;
     flex: 1;
-    padding-top: var(--space-xl);
+    padding-top: var(--space-2xl);
 }
 
 .note {
@@ -220,8 +232,8 @@ body {
    would change the column. Border-box, so the gutter is spent outside it. */
 .note__content,
 .page {
-    max-width: calc(var(--width) + 2 * var(--notes-gutter));
-    padding: 0 var(--notes-gutter) var(--space-3xl);
+    max-width: calc(var(--page-inset) + var(--width) + var(--page-gutter));
+    padding: 0 var(--page-gutter) var(--space-3xl) var(--page-inset);
     line-height: var(--prose-line-height);
 
     & :is(h1, h2, h3) {
@@ -250,7 +262,7 @@ body {
  */
 .backlinks {
     margin-top: auto;
-    padding: var(--space-xl) var(--notes-gutter) var(--space-2xl);
+    padding: var(--space-xl) var(--page-gutter) var(--space-2xl) var(--page-inset);
     background-color: var(--band-color);
 
     & h2 {
@@ -317,7 +329,7 @@ body {
     align-items: baseline;
     justify-content: space-between;
     gap: var(--space-xs) var(--space-l);
-    padding: var(--space-l) var(--notes-gutter) var(--space-xl);
+    padding: var(--space-l) var(--page-gutter) var(--space-xl) var(--page-inset);
     background-color: var(--band-color);
     border-top: 1px solid var(--band-border-color);
     color: var(--deemphasized-color);
@@ -483,7 +495,7 @@ html :is(
 @media (min-width: 641px) {
     /* Right-aligned under the trigger, just below it. */
     dialog.pf-modal {
-        margin: calc(var(--header-top) + var(--pf-input-height) + var(--space-2xs)) var(--notes-gutter) auto auto;
+        margin: calc(var(--header-top) + var(--pf-input-height) + var(--space-2xs)) var(--page-gutter) auto auto;
         max-height: min(70dvh, 40rem);
         border: 1px solid var(--border-color);
         border-radius: var(--border-radius-md);
