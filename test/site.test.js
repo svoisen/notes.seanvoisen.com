@@ -29,7 +29,7 @@ test("inlined CSS carries the copied brand tokens: IBM Plex Sans for everything,
 
 test("the header names the site and the footer carries the main site's copyright and licence", () => {
     const home = buildSite().read("index.html");
-    assert.match(home, /<a href="\/" class="wordmark">Sean’s Public Notebook<\/a>/);
+    assert.match(home, /<a href="\/" class="wordmark">Sean’s Notebook<\/a>/);
     assert.match(home, /© \d{4} Sean Voisen/);
     assert.match(home, /All content licensed under <a href="https:\/\/creativecommons.org\/licenses\/by-sa\/4.0"[^>]*>CC BY-SA 4.0<\/a>\./);
 });
